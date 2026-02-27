@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — OroFlow</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',system-ui,sans-serif;background:#fafaf7;color:#1a1a1a;min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* LOGIN GATE */
+.login-gate{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+.login-card{background:#ffffff;border:1px solid #e8e8e3;border-radius:16px;padding:44px 36px;max-width:400px;width:100%;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,0.06)}
+.login-card h1{font-size:22px;font-weight:800;margin-bottom:6px;letter-spacing:-0.3px}
+.login-card p{color:#999;font-size:13px;margin-bottom:28px}
+.login-card input{width:100%;padding:12px 15px;background:#fafaf7;border:1.5px solid #e8e8e3;border-radius:10px;color:#1a1a1a;font-family:'DM Sans',system-ui,sans-serif;font-size:14px;outline:none;margin-bottom:14px;transition:border-color 0.2s,box-shadow 0.2s}
+.login-card input::placeholder{color:#999}
+.login-card input:focus{border-color:#1a1a1a;box-shadow:0 0 0 3px rgba(26,26,26,0.06)}
+.login-card button{width:100%;padding:13px;background:#1a1a1a;color:#E2FF00;border:none;border-radius:11px;font-family:'DM Sans',system-ui,sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:background 0.2s}
+.login-card button:hover{background:#333}
+.login-card button:disabled{opacity:.5;cursor:not-allowed}
+.login-error{color:#dc2626;font-size:13px;margin-top:8px;display:none;padding:8px 12px;background:#fef2f2;border-radius:8px}
+
+/* ADMIN PANEL */
+.admin-panel{display:none}
+.admin-topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid #e8e8e3;background:rgba(250,250,247,0.95);backdrop-filter:blur(12px);position:sticky;top:0;z-index:50}
+.admin-topbar h1{font-size:20px;font-weight:800;letter-spacing:-0.3px}
+.admin-topbar-right{display:flex;align-items:center;gap:10px}
+.admin-name{font-size:12px;color:#999;font-weight:500}
+.admin-topbar .btn-logout{padding:7px 16px;background:none;border:1.5px solid #e8e8e3;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;color:#999;font-family:'DM Sans',system-ui,sans-serif;transition:all 0.2s}
+.admin-topbar .btn-logout:hover{border-color:#dc2626;color:#dc2626}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:24px 28px}
+.stat-card{background:#1a1a1a;border-radius:12px;padding:18px;color:#f0f0eb}
+.stat-label{font-size:10px;font-weight:700;color:#E2FF00;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.stat-value{font-size:26px;font-weight:800;letter-spacing:-0.5px}
+
+/* USERS TABLE */
+.users-section{padding:12px 28px 48px}
+.users-section h2{font-size:18px;font-weight:800;margin-bottom:16px;letter-spacing:-0.3px}
+.user-table{width:100%;border-collapse:collapse;background:#ffffff;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);border:1px solid #e8e8e3}
+.user-table th{background:#1a1a1a;color:#f0f0eb;padding:12px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
+.user-table td{padding:12px 14px;font-size:13px;border-bottom:1px solid #f0f0ec}
+.user-table tr:last-child td{border-bottom:none}
+.user-table tr:hover td{background:rgba(0,0,0,0.01)}
+
+/* PLAN BADGES */
+.plan-badge{padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;display:inline-block}
+.plan-free{background:#f5f5f0;color:#888}
+.plan-trial{background:#fef2f2;color:#dc2626}
+.plan-starter{background:#eff6ff;color:#2563eb}
+.plan-basic{background:#f5f3ff;color:#7c3aed}
+.plan-pro{background:#E2FF00;color:#1a1a1a}
+.plan-enterprise{background:#1a1a1a;color:#E2FF00}
+.plan-locked{background:#fef2f2;color:#dc2626}
+
+/* ACTIONS */
+.action-btn{padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.2s;border:1.5px solid #e8e8e3;background:#ffffff;color:#6b6b6b;font-family:'DM Sans',system-ui,sans-serif;margin-right:4px}
+.action-btn:hover{border-color:#1a1a1a;color:#1a1a1a}
+.action-btn-danger{border-color:#fecaca;color:#dc2626}
+.action-btn-danger:hover{background:#fef2f2;border-color:#dc2626}
+.plan-select{padding:5px 10px;border:1.5px solid #e8e8e3;border-radius:6px;font-size:12px;background:#fafaf7;color:#1a1a1a;font-family:'DM Sans',system-ui,sans-serif;cursor:pointer;outline:none;transition:border-color 0.2s}
+.plan-select:focus{border-color:#1a1a1a;box-shadow:0 0 0 2px rgba(226,255,0,0.15)}
+
+/* TOAST */
+.toast{position:fixed;top:20px;right:20px;padding:12px 22px;border-radius:10px;font-size:13px;font-weight:500;z-index:9999;display:none;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+.toast.success{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534}
+.toast.error{background:#fef2f2;border:1px solid #fecaca;color:#dc2626}
+
+@media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr)}.user-table{font-size:11px}.user-table th,.user-table td{padding:8px 10px}.users-section{padding:12px 16px 48px}.admin-topbar{padding:14px 16px}.stats-grid{padding:16px}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN GATE — now uses Supabase email/password instead of admin key -->
+<div class="login-gate" id="gate">
+<div class="login-card">
+<h1>&#128274; Admin Panel</h1>
+<p>Sign in with your admin account</p>
+<input type="email" id="emailIn" placeholder="Admin email" onkeypress="if(event.key==='Enter')document.getElementById('passIn').focus()">
+<input type="password" id="passIn" placeholder="Password" onkeypress="if(event.key==='Enter')loginAdmin()">
+<button id="loginBtn" onclick="loginAdmin()">Authenticate</button>
+<div class="login-error" id="loginErr"></div>
+</div>
+</div>
+
+<div class="admin-panel" id="admin">
+<div class="admin-topbar">
+<h1>&#9881; OroFlow Admin</h1>
+<div class="admin-topbar-right">
+<span class="admin-name" id="adminName"></span>
+<button class="btn-logout" onclick="logout()">&#9211; Logout</button>
+</div>
+</div>
+<div class="stats-grid" id="statsGrid">
+<div class="stat-card"><div class="stat-label">Total Users</div><div class="stat-value" id="statUsers">—</div></div>
+<div class="stat-card"><div class="stat-label">Paid Users</div><div class="stat-value" id="statPaid">—</div></div>
+<div class="stat-card"><div class="stat-label">Free Users</div><div class="stat-value" id="statTrial">—</div></div>
+<div class="stat-card"><div class="stat-label">Total Revenue</div><div class="stat-value" id="statRevenue">—</div></div>
+</div>
+<div class="users-section">
+<h2>User Management</h2>
+<table class="user-table">
+<thead><tr><th>Name</th><th>Email</th><th>Plan</th><th>Change Plan</th><th>Joined</th><th>Revenue</th><th>Actions</th></tr></thead>
+<tbody id="usersBody"><tr><td colspan="7" style="text-align:center;color:#999;padding:40px">Loading users...</td></tr></tbody>
+</table>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<!-- Supabase JS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ============================================
+// SUPABASE INIT
+// ============================================
+var SUPABASE_URL = 'https://xsqfdhymfgrobzovfgjf.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhzcWZkaHltZmdyb2J6b3ZmZ2pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwODA3MTgsImV4cCI6MjA4NzY1NjcxOH0.D4SqSsR8O8HAwjHFr03hYc1NcPHsqLQnJT3jH1yaMpU';
+var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+var users = [];
+var PLANS = {
+    free: { name: 'Free', class: 'plan-free', price: 0 },
+    trial: { name: 'Free Trial', class: 'plan-trial', price: 0 },
+    starter: { name: 'Starter', class: 'plan-starter', price: 588 },
+    basic: { name: 'Basic', class: 'plan-basic', price: 988 },
+    pro: { name: 'Professional', class: 'plan-pro', price: 2888 },
+    enterprise: { name: 'Enterprise', class: 'plan-enterprise', price: 8888 },
+    locked: { name: 'Suspended', class: 'plan-locked', price: 0 }
+};
+
+// ============================================
+// ADMIN LOGIN
+// ============================================
+// Instead of a shared admin key, we now use Supabase Auth.
+// After login, we check if the user's profile has is_admin = true.
+// If not admin, they get rejected.
+//
+// Security: The RLS policies we created earlier ensure that
+// only users with is_admin = true can see all profiles and
+// all payments. Even if a non-admin somehow gets to this page,
+// their queries would return empty results.
+async function loginAdmin() {
+    var email = document.getElementById('emailIn').value.trim().toLowerCase();
+    var password = document.getElementById('passIn').value;
+    var errEl = document.getElementById('loginErr');
+    var btn = document.getElementById('loginBtn');
+
+    errEl.style.display = 'none';
+    btn.disabled = true;
+    btn.textContent = 'Authenticating...';
+
+    // Step 1: Sign in with Supabase Auth
+    var authResult = await sb.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
+
+    if (authResult.error) {
+        errEl.textContent = 'Invalid email or password.';
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Authenticate';
+        return;
+    }
+
+    // Step 2: Check if this user is an admin
+    var profileResult = await sb
+        .from('oroflow_profiles')
+        .select('is_admin, name')
+        .eq('id', authResult.data.user.id)
+        .single();
+
+    if (!profileResult.data || !profileResult.data.is_admin) {
+        errEl.textContent = 'Access denied. Admin privileges required.';
+        errEl.style.display = 'block';
+        await sb.auth.signOut();
+        btn.disabled = false;
+        btn.textContent = 'Authenticate';
+        return;
+    }
+
+    // Admin verified — show panel
+    document.getElementById('adminName').textContent = profileResult.data.name || email;
+    showAdminPanel();
+}
+
+function showAdminPanel() {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('admin').style.display = 'block';
+    loadData();
+}
+
+// ============================================
+// AUTO-LOGIN CHECK
+// ============================================
+// If admin was previously logged in, check session
+(async function checkExistingAdmin() {
+    var sessionResult = await sb.auth.getSession();
+    if (!sessionResult.data.session) return;
+
+    var profileResult = await sb
+        .from('oroflow_profiles')
+        .select('is_admin, name')
+        .eq('id', sessionResult.data.session.user.id)
+        .single();
+
+    if (profileResult.data && profileResult.data.is_admin) {
+        document.getElementById('adminName').textContent = profileResult.data.name || sessionResult.data.session.user.email;
+        showAdminPanel();
+    }
+})();
+
+// ============================================
+// LOGOUT
+// ============================================
+async function logout() {
+    await sb.auth.signOut();
+    location.reload();
+}
+
+// ============================================
+// LOAD ALL DATA
+// ============================================
+// Replaces: api('list_users')
+// The RLS policy "Admins can view all profiles" lets us
+// fetch ALL user profiles (not just our own).
+async function loadData() {
+    // Fetch all profiles (admin RLS policy allows this)
+    var profilesResult = await sb
+        .from('oroflow_profiles')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (profilesResult.error) {
+        showToast('Failed to load users: ' + profilesResult.error.message, 'error');
+        return;
+    }
+
+    // Fetch all payments to calculate per-user revenue
+    var paymentsResult = await sb
+        .from('oroflow_payments')
+        .select('user_id, amount');
+
+    // Build a revenue map: { user_id: total_amount }
+    var revenueMap = {};
+    if (paymentsResult.data) {
+        paymentsResult.data.forEach(function(p) {
+            revenueMap[p.user_id] = (revenueMap[p.user_id] || 0) + (parseFloat(p.amount) || 0);
+        });
+    }
+
+    // Merge revenue into user profiles
+    users = (profilesResult.data || []).map(function(u) {
+        u.total_paid = revenueMap[u.id] || parseFloat(u.total_paid) || 0;
+        return u;
+    });
+
+    renderStats();
+    renderUsers();
+}
+
+// ============================================
+// RENDER STATS
+// ============================================
+function renderStats() {
+    var total = users.length;
+    var paid = users.filter(function(u) { return u.plan && u.plan !== 'free' && u.plan !== 'trial' && u.plan !== 'locked'; }).length;
+    var free = users.filter(function(u) { return !u.plan || u.plan === 'free' || u.plan === 'trial'; }).length;
+    var revenue = users.reduce(function(sum, u) { return sum + (parseFloat(u.total_paid) || 0); }, 0);
+
+    document.getElementById('statUsers').textContent = total;
+    document.getElementById('statPaid').textContent = paid;
+    document.getElementById('statTrial').textContent = free;
+    document.getElementById('statRevenue').textContent = 'RM ' + revenue.toLocaleString();
+}
+
+// ============================================
+// RENDER USERS TABLE
+// ============================================
+function renderUsers() {
+    var tbody = document.getElementById('usersBody');
+    if (!users.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#999;padding:40px">No users yet</td></tr>';
+        return;
+    }
+
+    var html = '';
+    users.forEach(function(u) {
+        var plan = PLANS[u.plan] || PLANS.free;
+        var joined = u.created_at ? new Date(u.created_at).toLocaleDateString('en-MY', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+        var rev = parseFloat(u.total_paid) || 0;
+
+        html += '<tr>';
+        html += '<td><strong>' + escHtml(u.name || '—') + '</strong>' + (u.is_admin ? ' <span style="font-size:9px;background:#E2FF00;color:#1a1a1a;padding:2px 6px;border-radius:4px;font-weight:700">ADMIN</span>' : '') + '</td>';
+        html += '<td>' + escHtml(u.email || '—') + '</td>';
+        html += '<td><span class="plan-badge ' + plan.class + '">' + plan.name + '</span></td>';
+        html += '<td><select class="plan-select" onchange="changePlan(\'' + u.id + '\',this.value)">';
+        Object.keys(PLANS).forEach(function(key) {
+            html += '<option value="' + key + '"' + (key === u.plan ? ' selected' : '') + '>' + PLANS[key].name + '</option>';
+        });
+        html += '</select></td>';
+        html += '<td>' + joined + '</td>';
+        html += '<td>RM ' + rev.toLocaleString() + '</td>';
+        html += '<td><button class="action-btn" onclick="recordPayment(\'' + u.id + '\')">&#128176; Payment</button></td>';
+        html += '</tr>';
+    });
+    tbody.innerHTML = html;
+}
+
+// ============================================
+// CHANGE PLAN
+// ============================================
+// Replaces: api('update_plan', ...)
+// Admin RLS policy "Admins can update all profiles" allows this.
+async function changePlan(userId, newPlan) {
+    var planName = PLANS[newPlan] ? PLANS[newPlan].name : newPlan;
+    if (!confirm('Change this user to ' + planName + '?\n\nThis takes effect immediately.')) {
+        loadData();
+        return;
+    }
+
+    var result = await sb
+        .from('oroflow_profiles')
+        .update({ plan: newPlan })
+        .eq('id', userId);
+
+    if (result.error) {
+        showToast('Failed: ' + result.error.message, 'error');
+    } else {
+        showToast('Plan updated to ' + planName, 'success');
+    }
+    loadData();
+}
+
+// ============================================
+// RECORD PAYMENT
+// ============================================
+// Replaces: api('record_payment', ...)
+// Admin RLS policy "Admins can insert payments" allows this.
+// Also updates total_paid on the profile.
+async function recordPayment(userId) {
+    var amount = prompt('Enter payment amount (RM):');
+    if (!amount || isNaN(parseFloat(amount))) return;
+    var note = prompt('Payment note (optional):', 'Manual payment');
+
+    // Insert payment record
+    var payResult = await sb
+        .from('oroflow_payments')
+        .insert({
+            user_id: userId,
+            amount: parseFloat(amount),
+            note: note || ''
+        });
+
+    if (payResult.error) {
+        showToast('Failed: ' + payResult.error.message, 'error');
+        return;
+    }
+
+    // Update total_paid on profile
+    // First get current total
+    var profileResult = await sb
+        .from('oroflow_profiles')
+        .select('total_paid')
+        .eq('id', userId)
+        .single();
+
+    var currentTotal = parseFloat(profileResult.data?.total_paid) || 0;
+    await sb
+        .from('oroflow_profiles')
+        .update({
+            total_paid: currentTotal + parseFloat(amount),
+            last_payment: new Date().toISOString()
+        })
+        .eq('id', userId);
+
+    showToast('RM ' + amount + ' recorded', 'success');
+    loadData();
+}
+
+// ============================================
+// UTILITIES
+// ============================================
+function showToast(msg, type) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast ' + type;
+    t.style.display = 'block';
+    setTimeout(function() { t.style.display = 'none'; }, 3000);
+}
+
+function escHtml(s) {
+    var d = document.createElement('div');
+    d.textContent = s || '';
+    return d.innerHTML;
+}
+</script>
+</body>
+</html>

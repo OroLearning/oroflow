@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upgrade — OroFlow</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html{-webkit-font-smoothing:antialiased}body{font-family:'Outfit',sans-serif;background:#f5f5f0;background-image:radial-gradient(circle,#d5d5cf 1px,transparent 1px);background-size:28px 28px;background-attachment:fixed;color:#1a1a1a;min-height:100vh}h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:-.03em}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid #e0e0da;background:rgba(245,245,240,.8);backdrop-filter:blur(16px);position:sticky;top:0;z-index:50}
+.nav-brand{display:flex;align-items:center;gap:9px;text-decoration:none}
+.nav-logo{width:32px;height:32px;background:#1a1a1a;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:11px;color:#E2FF00}
+.nav-name{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:#1a1a1a;letter-spacing:-.04em}
+.nav-back{font-size:13px;color:#888;text-decoration:none;font-weight:500;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.nav-back:hover{color:#1a1a1a}
+.header{text-align:center;padding:48px 24px 12px}
+.header h1{font-size:32px;font-weight:800;letter-spacing:-.04em;margin-bottom:8px}
+.header p{font-size:15px;color:#555;max-width:480px;margin:0 auto}
+.current-plan-badge{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:7px 16px;background:#1a1a1a;color:#E2FF00;border-radius:8px;font-size:12px;font-weight:700;font-family:'Space Grotesk',sans-serif}
+.toggle-row{display:flex;align-items:center;justify-content:center;gap:12px;padding:24px}
+.toggle-label{font-size:13px;font-weight:600;color:#888;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.toggle-label.active{color:#1a1a1a}
+.toggle-track{width:48px;height:26px;background:#e0e0da;border-radius:13px;position:relative;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.toggle-track.annual{background:#1a1a1a}
+.toggle-knob{width:20px;height:20px;background:#ffffff;border-radius:50%;position:absolute;top:3px;left:3px;transition:all .25s cubic-bezier(.4,0,.2,1);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.toggle-track.annual .toggle-knob{left:25px;background:#E2FF00}
+.save-badge{font-size:11px;font-weight:700;color:#16a34a;background:rgba(22,163,74,.08);padding:3px 10px;border-radius:6px;opacity:0;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.save-badge.show{opacity:1}
+.pricing-section{max-width:1100px;margin:0 auto;padding:0 20px 60px}
+.pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.price-card{background:#ffffff;border:1px solid #e0e0da;border-radius:16px;padding:28px 22px;position:relative;transition:all .25s cubic-bezier(.4,0,.2,1);box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04)}
+.price-card:hover{transform:translateY(-3px);box-shadow:0 2px 8px rgba(0,0,0,.06),0 8px 32px rgba(0,0,0,.06)}
+.price-card.featured{background:#1a1a1a;color:#f0f0eb;border-color:#1a1a1a;box-shadow:0 4px 12px rgba(0,0,0,.05),0 16px 48px rgba(0,0,0,.08)}
+.price-card.featured .price-label{color:#8a8a80}
+.price-card.featured .price-amount{color:#f0f0eb}
+.price-card.featured .price-orig{color:#8a8a80}
+.price-card.featured .feature-item{color:#f0f0eb;border-color:rgba(255,255,255,.06)}
+.price-card.featured .feature-check{color:#E2FF00}
+.popular-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#E2FF00;color:#1a1a1a;padding:4px 14px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap}
+.price-name{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;margin-bottom:3px;letter-spacing:-.02em}
+.price-label{font-size:12px;color:#888;margin-bottom:16px}
+.price-amount{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:800;letter-spacing:-.04em;margin-bottom:2px}
+.price-amount span{font-size:14px;font-weight:500;color:#888}
+.price-orig{font-size:12px;color:#888;text-decoration:line-through;margin-bottom:3px}
+.price-annual{font-size:11px;color:#16a34a;margin-bottom:16px;min-height:16px}
+.price-btn{display:block;width:100%;padding:11px;border:none;border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);text-align:center;text-decoration:none;margin-bottom:18px;letter-spacing:-.01em}
+.price-btn-dark{background:#1a1a1a;color:#E2FF00}
+.price-btn-dark:hover{background:#111;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.price-btn-lime{background:#E2FF00;color:#1a1a1a}
+.price-btn-lime:hover{background:#c8e600;box-shadow:0 4px 16px rgba(226,255,0,.25)}
+.price-btn-current{background:#e0e0da;color:#888;cursor:default}
+.feature-list{list-style:none}
+.feature-item{padding:7px 0;border-bottom:1px solid rgba(0,0,0,.04);font-size:12px;color:#555;display:flex;align-items:flex-start;gap:7px;line-height:1.4}
+.feature-item:last-child{border-bottom:none}
+.feature-check{color:#16a34a;font-size:12px;flex-shrink:0;margin-top:1px}
+.compare-section{max-width:900px;margin:0 auto 60px;padding:0 20px}
+.compare-section h2{text-align:center;font-size:22px;font-weight:800;margin-bottom:24px;letter-spacing:-.03em}
+.compare-table{width:100%;border-collapse:collapse;background:#ffffff;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04)}
+.compare-table th,.compare-table td{padding:12px 14px;text-align:center;font-size:12px;border-bottom:1px solid rgba(0,0,0,.04)}
+.compare-table th{background:#1a1a1a;color:#f0f0eb;font-weight:700;font-size:11px;letter-spacing:.03em}
+.compare-table th:first-child{text-align:left;width:30%}
+.compare-table td:first-child{text-align:left;font-weight:500;color:#555}
+.compare-table th.featured-col{background:#0d0d0d;color:#E2FF00}
+.t-yes{color:#16a34a;font-weight:700}
+.t-no{color:#888}
+.guarantee{max-width:600px;margin:0 auto 48px;text-align:center;padding:0 20px}
+.guarantee-box{background:#ffffff;border:1px solid #e0e0da;border-radius:14px;padding:28px;box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04)}
+.guarantee-box h3{font-size:16px;font-weight:700;margin-bottom:6px}
+.guarantee-box p{font-size:13px;color:#555;line-height:1.6}
+.footer{text-align:center;padding:24px;font-size:12px;color:#888}
+@media(max-width:900px){.pricing-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.pricing-grid{grid-template-columns:1fr;max-width:380px;margin:0 auto}.header h1{font-size:26px}.compare-table{font-size:11px}.compare-table th,.compare-table td{padding:8px 6px}}
+</style>
+</head>
+<body>
+<nav class="nav">
+<a href="/" class="nav-brand"><div class="nav-logo">O+</div><span class="nav-name">OroFlow</span></a>
+<a href="/dashboard.html" class="nav-back">&larr; Back to Dashboard</a>
+</nav>
+<div class="header">
+<h1>Choose Your Plan</h1>
+<p>All plans include AI workflow generation, template library, and dedicated support.</p>
+<div class="current-plan-badge" id="currentPlanBadge">&#9889; Loading plan...</div>
+</div>
+<div class="toggle-row">
+<span class="toggle-label active" id="monthlyLabel" onclick="toggleBilling()">Monthly</span>
+<div class="toggle-track" id="billingToggle" onclick="toggleBilling()"><div class="toggle-knob"></div></div>
+<span class="toggle-label" id="annualLabel" onclick="toggleBilling()">Annual</span>
+<span class="save-badge" id="saveBadge">Save 20%</span>
+</div>
+<div class="pricing-section">
+<div class="pricing-grid">
+<div class="price-card" id="cardStarter">
+<div class="price-name">Starter</div>
+<div class="price-label">For solo freelancers</div>
+<div class="price-orig" id="starterOrig">RM 1,488/mo</div>
+<div class="price-amount" id="starterPrice">RM 588<span>/mo</span></div>
+<div class="price-annual" id="starterAnnual">&nbsp;</div>
+<a class="price-btn price-btn-dark" id="starterBtn" href="#" onclick="return selectPlan('starter','Starter — RM 588/mo')">Get Starter</a>
+<ul class="feature-list">
+<li class="feature-item"><span class="feature-check">&#10003;</span>5 AI workflows / month</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>6 starter templates</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>7 app integrations</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>Email support</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>JSON export</li>
+</ul>
+</div>
+<div class="price-card" id="cardBasic">
+<div class="price-name">Basic</div>
+<div class="price-label">For growing teams</div>
+<div class="price-orig" id="basicOrig">RM 1,988/mo</div>
+<div class="price-amount" id="basicPrice">RM 988<span>/mo</span></div>
+<div class="price-annual" id="basicAnnual">&nbsp;</div>
+<a class="price-btn price-btn-dark" id="basicBtn" href="#" onclick="return selectPlan('basic','Basic — RM 988/mo')">Get Basic</a>
+<ul class="feature-list">
+<li class="feature-item"><span class="feature-check">&#10003;</span>20 AI workflows / month</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>All templates</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>15 app integrations</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>Priority email support</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>Save & manage workflows</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>JSON export + download</li>
+</ul>
+</div>
+<div class="price-card featured" id="cardPro">
+<div class="popular-badge">Most Popular</div>
+<div class="price-name">Professional</div>
+<div class="price-label">For scaling businesses</div>
+<div class="price-orig" id="proOrig" style="color:#8a8a80">RM 4,888/mo</div>
+<div class="price-amount" id="proPrice">RM 2,888<span style="color:#8a8a80">/mo</span></div>
+<div class="price-annual" id="proAnnual">&nbsp;</div>
+<a class="price-btn price-btn-lime" id="proBtn" href="#" onclick="return selectPlan('pro','Professional — RM 2,888/mo')">Get Professional</a>
+<ul class="feature-list">
+<li class="feature-item"><span class="feature-check">&#10003;</span>Unlimited AI workflows</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>All templates + custom</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>40+ app integrations</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>WhatsApp & phone support</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>Advanced workflow logic</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>Team collaboration (3 seats)</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>Priority AI generation</li>
+</ul>
+</div>
+<div class="price-card" id="cardEnterprise">
+<div class="price-name">Enterprise</div>
+<div class="price-label">For large operations</div>
+<div class="price-orig" id="entOrig">RM 12,888/mo</div>
+<div class="price-amount" id="entPrice">RM 8,888<span>/mo</span></div>
+<div class="price-annual" id="entAnnual">&nbsp;</div>
+<a class="price-btn price-btn-dark" id="entBtn" href="#" onclick="return selectPlan('enterprise','Enterprise — RM 8,888/mo')">Get Enterprise</a>
+<ul class="feature-list">
+<li class="feature-item"><span class="feature-check">&#10003;</span>Unlimited everything</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>Custom template creation</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>All integrations + custom API</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>Dedicated account manager</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>On-site setup & training</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>Unlimited team seats</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>SLA guarantee 99.9%</li>
+<li class="feature-item"><span class="feature-check">&#10003;</span>Custom branding</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="compare-section">
+<h2>Compare All Plans</h2>
+<table class="compare-table">
+<thead><tr><th>Feature</th><th>Starter</th><th>Basic</th><th class="featured-col">Pro</th><th>Enterprise</th></tr></thead>
+<tbody>
+<tr><td>AI Workflows / month</td><td>5</td><td>20</td><td>Unlimited</td><td>Unlimited</td></tr>
+<tr><td>Templates</td><td>6 starter</td><td>All</td><td>All + custom</td><td>All + custom</td></tr>
+<tr><td>App integrations</td><td>7</td><td>15</td><td>40+</td><td>All + API</td></tr>
+<tr><td>Save workflows</td><td class="t-no">—</td><td class="t-yes">✓</td><td class="t-yes">✓</td><td class="t-yes">✓</td></tr>
+<tr><td>Team seats</td><td>1</td><td>1</td><td>3</td><td>Unlimited</td></tr>
+<tr><td>Support</td><td>Email</td><td>Priority email</td><td>WhatsApp + phone</td><td>Dedicated manager</td></tr>
+<tr><td>Custom branding</td><td class="t-no">—</td><td class="t-no">—</td><td class="t-no">—</td><td class="t-yes">✓</td></tr>
+<tr><td>SLA guarantee</td><td class="t-no">—</td><td class="t-no">—</td><td class="t-no">—</td><td class="t-yes">99.9%</td></tr>
+</tbody>
+</table>
+</div>
+<div class="guarantee"><div class="guarantee-box"><h3>&#128170; 30-Day Money-Back Guarantee</h3><p>Try any plan risk-free. If you're not satisfied within 30 days, we'll refund your payment in full — no questions asked.</p></div></div>
+<div class="footer">&copy; 2026 ORO+. All rights reserved.</div>
+
+<!-- Supabase JS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ============================================
+// SUPABASE INIT
+// ============================================
+var SUPABASE_URL = 'https://xsqfdhymfgrobzovfgjf.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhzcWZkaHltZmdyb2J6b3ZmZ2pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwODA3MTgsImV4cCI6MjA4NzY1NjcxOH0.D4SqSsR8O8HAwjHFr03hYc1NcPHsqLQnJT3jH1yaMpU';
+var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+var isAnnual = false;
+var currentPlan = 'free';
+var currentEmail = '';
+
+// ============================================
+// LOAD CURRENT PLAN
+// ============================================
+// Replaces: fetch('/auth.php?action=check')
+// Gets session + profile to show current plan
+async function loadCurrentPlan() {
+    var sessionResult = await sb.auth.getSession();
+    if (!sessionResult.data.session) {
+        window.location.href = '/login.html';
+        return;
+    }
+
+    currentEmail = sessionResult.data.session.user.email;
+
+    var profileResult = await sb
+        .from('oroflow_profiles')
+        .select('plan')
+        .eq('id', sessionResult.data.session.user.id)
+        .single();
+
+    if (profileResult.data) {
+        currentPlan = profileResult.data.plan || 'free';
+    }
+
+    var names = { free: 'Free', trial: 'Free Trial', starter: 'Starter', basic: 'Basic', pro: 'Professional', enterprise: 'Enterprise', locked: 'Suspended' };
+    document.getElementById('currentPlanBadge').innerHTML = '&#9889; Current plan: <strong>' + (names[currentPlan] || currentPlan) + '</strong>';
+    highlightCurrentPlan();
+}
+
+function highlightCurrentPlan() {
+    var planMap = { starter: 'cardStarter', basic: 'cardBasic', pro: 'cardPro', enterprise: 'cardEnterprise' };
+    document.querySelectorAll('.price-btn').forEach(function(b) { b.classList.remove('price-btn-current'); });
+    var cardId = planMap[currentPlan];
+    if (cardId) {
+        var btn = document.getElementById(cardId).querySelector('.price-btn');
+        btn.className = 'price-btn price-btn-current';
+        btn.textContent = 'Current Plan';
+        btn.onclick = function() { return false; };
+    }
+}
+
+// ============================================
+// BILLING TOGGLE
+// ============================================
+function toggleBilling() {
+    isAnnual = !isAnnual;
+    document.getElementById('billingToggle').classList.toggle('annual', isAnnual);
+    document.getElementById('monthlyLabel').classList.toggle('active', !isAnnual);
+    document.getElementById('annualLabel').classList.toggle('active', isAnnual);
+    document.getElementById('saveBadge').classList.toggle('show', isAnnual);
+    var p = [
+        { id: 'starterPrice', m: 'RM 588', a: 'RM 470', oid: 'starterOrig', om: 'RM 1,488/mo', oa: 'RM 1,190/mo', aid: 'starterAnnual', an: 'Billed RM 5,640/yr', sv: 'Save RM 1,416' },
+        { id: 'basicPrice', m: 'RM 988', a: 'RM 790', oid: 'basicOrig', om: 'RM 1,988/mo', oa: 'RM 1,590/mo', aid: 'basicAnnual', an: 'Billed RM 9,480/yr', sv: 'Save RM 2,376' },
+        { id: 'proPrice', m: 'RM 2,888', a: 'RM 2,310', oid: 'proOrig', om: 'RM 4,888/mo', oa: 'RM 3,910/mo', aid: 'proAnnual', an: 'Billed RM 27,720/yr', sv: 'Save RM 6,936' },
+        { id: 'entPrice', m: 'RM 8,888', a: 'RM 7,110', oid: 'entOrig', om: 'RM 12,888/mo', oa: 'RM 10,310/mo', aid: 'entAnnual', an: 'Billed RM 85,320/yr', sv: 'Save RM 21,336' }
+    ];
+    p.forEach(function(x) {
+        document.getElementById(x.id).innerHTML = (isAnnual ? x.a : x.m) + '<span>/mo</span>';
+        document.getElementById(x.oid).textContent = isAnnual ? x.oa : x.om;
+        document.getElementById(x.aid).innerHTML = isAnnual ? x.an + ' — <span style="color:#16a34a">' + x.sv + '</span>' : '&nbsp;';
+    });
+}
+
+// ============================================
+// SELECT PLAN → WHATSAPP
+// ============================================
+// Replaces: fetch('/auth.php?action=check') inside selectPlan
+// We already have the email from loadCurrentPlan()
+function selectPlan(plan, label) {
+    var billing = isAnnual ? 'Annual' : 'Monthly';
+    var msg = 'Hi, I want to upgrade to *' + label + '* (' + billing + ') on OroFlow. My email: ' + (currentEmail || '(please provide email)');
+    window.open('https://wa.me/60163695701?text=' + encodeURIComponent(msg), '_blank');
+    return false;
+}
+
+loadCurrentPlan();
+</script>
+</body>
+</html>

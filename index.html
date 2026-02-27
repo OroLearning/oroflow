@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>OroFlow — AI-Powered Business Automation Platform</title>
+<meta name="description" content="Automate your business in 30 seconds. AI-powered workflow automation built for Malaysian businesses. No coding required.">
+<meta name="theme-color" content="#1a1a1a">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="OroFlow">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:title" content="OroFlow — Automate Your Business in 30 Seconds">
+<meta property="og:description" content="AI-powered workflow automation that saves RM 80,000/year. Built for Malaysian businesses. 30-day free trial.">
+<meta property="og:url" content="https://app.oroflow.cloud">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OroFlow by ORO+">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OroFlow — Automate Your Business in 30 Seconds">
+<meta name="twitter:description" content="AI-powered workflow automation for Malaysian businesses.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#f5f5f0;
+--card:#ffffff;
+--card-dark:#1a1a1a;
+--card-darker:#0d0d0d;
+--lime:#E2FF00;
+--lime-soft:rgba(226,255,0,.15);
+--lime-glow:rgba(226,255,0,.4);
+--text:#1a1a1a;
+--text2:#6b6b6b;
+--text3:#999;
+--text-on-dark:#f5f5f0;
+--text-on-dark2:#a3a3a3;
+--border:#e5e5e0;
+--border-dark:#2a2a2a;
+--green:#22c55e;
+--red:#ef4444;
+--shadow:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.03);
+--shadow-hover:0 4px 24px rgba(0,0,0,.08);
+--shadow-glow:0 0 60px rgba(226,255,0,.08)
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Outfit',sans-serif;background:var(--bg);background-image:radial-gradient(circle,#d4d4c8 1px,transparent 1px);background-size:24px 24px;background-attachment:fixed;color:var(--text);overflow-x:hidden;line-height:1.6}
+h1,h2,h3,h4,h5,h6{font-family:'Space Grotesk',sans-serif;letter-spacing:-.02em}
+
+/* NAVBAR */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 40px;height:72px;display:flex;align-items:center;justify-content:space-between;background:rgba(245,245,240,.85);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border);transition:all .3s}
+.navbar.scrolled{background:rgba(245,245,240,.95);box-shadow:0 2px 20px rgba(0,0,0,.06)}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo{width:38px;height:38px;background:var(--card-dark);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:14px;color:var(--lime)}
+.nav-name{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.03em}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-link{color:var(--text2);text-decoration:none;font-size:14px;font-weight:500;padding:8px 16px;border-radius:8px;transition:all .2s}
+.nav-link:hover{color:var(--text);background:rgba(0,0,0,.04)}
+.nav-btn-login{color:var(--text2);text-decoration:none;font-size:14px;font-weight:600;padding:8px 20px;border-radius:8px;border:1px solid var(--border);transition:all .2s}
+.nav-btn-login:hover{color:var(--text);border-color:var(--card-dark)}
+.nav-btn-cta{display:inline-flex;align-items:center;gap:6px;background:var(--card-dark);color:var(--lime);text-decoration:none;font-size:14px;font-weight:600;padding:9px 22px;border-radius:8px;transition:all .3s;font-family:'Space Grotesk',sans-serif}
+.nav-btn-cta:hover{box-shadow:0 0 20px var(--lime-glow);transform:translateY(-1px)}
+
+/* HERO */
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px}
+.hero-content{max-width:860px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px 6px 8px;background:rgba(226,255,0,.12);border:1px solid rgba(226,255,0,.3);border-radius:100px;font-size:13px;font-weight:600;color:var(--card-dark);margin-bottom:32px;animation:fadeInUp .6s ease forwards;opacity:0}
+.hero-badge-dot{width:8px;height:8px;background:var(--lime);border-radius:50%;animation:pulse-dot 2s ease-in-out infinite;box-shadow:0 0 8px var(--lime-glow)}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.8)}}
+.hero h1{font-size:clamp(42px,6vw,72px);font-weight:800;line-height:1.05;letter-spacing:-3px;margin-bottom:24px;animation:fadeInUp .6s ease .1s forwards;opacity:0;color:var(--text)}
+.highlight-text{color:var(--card-dark);position:relative;display:inline-block}
+.highlight-text::after{content:'';position:absolute;bottom:4px;left:-4px;right:-4px;height:14px;background:var(--lime);z-index:-1;border-radius:3px;opacity:.6}
+.hero-sub{font-size:18px;color:var(--text2);max-width:560px;margin:0 auto 40px;line-height:1.7;animation:fadeInUp .6s ease .2s forwards;opacity:0}
+.hero-actions{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:56px;animation:fadeInUp .6s ease .3s forwards;opacity:0}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--card-dark);color:var(--lime);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;padding:14px 32px;border-radius:12px;transition:all .3s;border:none;cursor:pointer}
+.btn-primary:hover{box-shadow:0 0 30px var(--lime-glow);transform:translateY(-2px)}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;color:var(--text2);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;padding:14px 32px;border-radius:12px;border:1px solid var(--border);transition:all .3s;background:var(--card)}
+.btn-secondary:hover{color:var(--text);border-color:var(--card-dark);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.hero-proof{display:flex;align-items:center;justify-content:center;gap:32px;animation:fadeInUp .6s ease .4s forwards;opacity:0}
+.proof-item{display:flex;flex-direction:column;align-items:center;gap:4px}
+.proof-value{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:var(--text)}
+.proof-label{font-size:13px;color:var(--text3);font-weight:500}
+.proof-divider{width:1px;height:40px;background:var(--border)}
+
+/* TRUST BAR */
+.trust-bar,.trust-strip{position:relative;z-index:1;padding:40px 24px 80px;text-align:center}
+.trust-strip-inner{max-width:900px;margin:0 auto}
+.trust-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:28px;text-align:center}
+.trust-logos{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap}
+.trust-logo{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--text3);letter-spacing:.5px;opacity:.4;transition:all .4s;cursor:default}
+.trust-logo:hover{opacity:1;color:var(--text);transform:scale(1.1)}
+
+/* SECTIONS */
+.section{position:relative;z-index:1;padding:100px 24px}
+.section-container{max-width:1200px;margin:0 auto}
+.section-label{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--card-dark);background:var(--lime);padding:4px 12px;border-radius:6px;margin-bottom:16px}
+.section-title{font-size:clamp(32px,4vw,48px);font-weight:800;letter-spacing:-2px;line-height:1.1;margin-bottom:16px;color:var(--text)}
+.section-desc{font-size:17px;color:var(--text2);max-width:560px;line-height:1.7}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:60px}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:36px 32px;transition:all .3s;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.feature-card:hover{border-color:var(--card-dark);transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.feature-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px;background:var(--card-dark);color:var(--lime)}
+.feature-card h3{font-size:18px;font-weight:700;margin-bottom:10px;color:var(--text)}
+.feature-card p{font-size:14px;color:var(--text2);line-height:1.7}
+
+/* STEPS */
+.steps-container{display:flex;gap:24px;margin-top:60px;position:relative}
+.steps-container::before{content:'';position:absolute;top:48px;left:80px;right:80px;height:2px;background:var(--card-dark);opacity:.1}
+.step-card{flex:1;text-align:center;position:relative;z-index:1}
+.step-number{width:56px;height:56px;background:var(--card-dark);border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;margin:0 auto 20px;color:var(--lime)}
+.step-card h3{font-size:18px;font-weight:700;margin-bottom:8px;color:var(--text)}
+.step-card p{font-size:14px;color:var(--text2);line-height:1.6;max-width:260px;margin:0 auto}
+
+/* QUOTE */
+.quote-section{position:relative;z-index:1;padding:80px 24px}
+.quote-container{max-width:800px;margin:0 auto;text-align:center;padding:60px 48px;background:var(--card-dark);border-radius:24px;color:var(--text-on-dark)}
+.quote-icon{font-size:48px;opacity:.3;margin-bottom:20px;color:var(--lime)}
+.quote-text{font-size:22px;font-weight:500;line-height:1.7;margin-bottom:24px;font-style:italic;color:var(--text-on-dark)}
+.quote-author{font-size:15px;font-weight:600;color:var(--lime)}
+.quote-role{font-size:13px;color:var(--text-on-dark2)}
+
+/* PRICING */
+.toggle-wrap{display:flex;align-items:center;justify-content:center;gap:14px;margin:32px 0 20px}
+.toggle-label{font-size:14px;font-weight:500;color:var(--text3);cursor:pointer;transition:color .2s}
+.toggle-label.active{color:var(--text)}
+.toggle-track{width:52px;height:28px;background:var(--border);border-radius:100px;cursor:pointer;position:relative;transition:background .3s;border:1px solid var(--border)}
+.toggle-track.annual{background:var(--card-dark);border-color:var(--card-dark)}
+.toggle-knob{width:22px;height:22px;background:var(--card);border-radius:50%;position:absolute;top:2px;left:2px;transition:transform .3s;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.toggle-track.annual .toggle-knob{transform:translateX(24px);background:var(--lime)}
+.save-badge{font-size:12px;font-weight:700;color:var(--card-dark);background:var(--lime);padding:3px 10px;border-radius:100px}
+.launch-banner{max-width:1200px;margin:0 auto 36px;padding:14px 24px;background:var(--card-dark);border-radius:12px;text-align:center}
+.launch-text{font-size:14px;color:var(--text-on-dark);font-weight:500}
+.launch-text b{color:var(--lime);font-weight:800}
+.pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:stretch}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px 24px;transition:all .3s;position:relative;box-shadow:var(--shadow)}
+.price-card:hover{transform:translateY(-4px);border-color:var(--card-dark);box-shadow:var(--shadow-hover)}
+.price-card.featured{background:var(--card-dark);border-color:var(--card-dark);color:var(--text-on-dark);box-shadow:0 8px 40px rgba(0,0,0,.12)}
+.price-card.featured:hover{transform:translateY(-4px);box-shadow:0 12px 50px rgba(0,0,0,.18)}
+.price-card.featured .price-tier{color:var(--lime)}
+.price-card.featured .price-original{color:var(--text-on-dark2)}
+.price-card.featured .price-amount{color:var(--text-on-dark)}
+.price-card.featured .price-desc{color:var(--text-on-dark2);border-bottom-color:var(--border-dark)}
+.price-card.featured .price-features li{color:var(--text-on-dark2)}
+.price-card.featured .price-features li .check{background:rgba(226,255,0,.15);color:var(--lime)}
+.price-card.featured .price-features li .check.premium{background:rgba(226,255,0,.2);color:var(--lime)}
+.price-card.featured .price-save-tag{color:var(--card-dark);background:var(--lime);border-color:var(--lime)}
+.price-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--lime);color:var(--card-dark);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;padding:5px 18px;border-radius:100px;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap}
+.price-tier{font-size:13px;font-weight:700;color:var(--card-dark);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-family:'Space Grotesk',sans-serif}
+.price-original{font-size:15px;color:var(--text3);text-decoration:line-through;opacity:.65;margin-bottom:4px}
+.price-amount{font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:800;letter-spacing:-2px;margin-bottom:2px;color:var(--text)}
+.price-amount span{font-size:14px;font-weight:500;color:var(--text3);letter-spacing:0}
+.price-annual-note{font-size:11px;color:var(--green);min-height:16px;margin-bottom:2px}
+.price-save-tag{display:inline-block;font-size:11px;font-weight:700;color:var(--green);background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.15);padding:2px 8px;border-radius:6px;margin-bottom:12px}
+.price-desc{font-size:13px;color:var(--text2);margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+.price-features{list-style:none;margin-bottom:28px}
+.price-features li{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.4}
+.price-features li .check{flex-shrink:0;width:16px;height:16px;background:rgba(34,197,94,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--green);margin-top:1px}
+.price-features li .check.premium{background:rgba(226,255,0,.1);color:var(--card-dark)}
+.price-btn{display:block;text-align:center;padding:12px;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;text-decoration:none;transition:all .3s;width:100%;cursor:pointer;border:none}
+.price-btn-outline{color:var(--text2);border:1px solid var(--border);background:transparent}
+.price-btn-outline:hover{color:var(--text);border-color:var(--card-dark)}
+.price-btn-primary{background:var(--lime);color:var(--card-dark)}
+.price-btn-primary:hover{box-shadow:0 0 24px var(--lime-glow);transform:translateY(-2px)}
+
+/* COMPARE TABLE */
+.compare-section{max-width:1200px;margin:60px auto 0;padding:0 24px;position:relative;z-index:1}
+.compare-header{text-align:center;margin-bottom:36px}
+.compare-header h2{font-size:28px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px}
+.compare-header p{color:var(--text2);font-size:15px}
+.compare-table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.compare-table th,.compare-table td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);font-size:13px}
+.compare-table th{font-weight:700;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;background:var(--bg)}
+.compare-table td:first-child{color:var(--text);font-weight:500}
+.compare-table td{color:var(--text2)}
+.compare-table .feat-yes{color:var(--green)}
+.compare-table .feat-no{color:var(--text3);opacity:.4}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table .col-pro{background:rgba(226,255,0,.04)}
+
+/* FAQ */
+.faq-section{max-width:700px;margin:60px auto 0;padding:0 24px;position:relative;z-index:1}
+.faq-section h2{font-size:28px;font-weight:800;text-align:center;margin-bottom:36px}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow)}
+.faq-q{padding:18px 24px;font-size:15px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:space-between}
+.faq-q:hover{color:var(--card-dark)}
+.faq-arrow{font-size:12px;color:var(--text3);transition:transform .3s}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{padding:0 24px;max-height:0;overflow:hidden;transition:all .3s;font-size:14px;color:var(--text2);line-height:1.7}
+.faq-item.open .faq-a{padding:0 24px 18px;max-height:200px}
+
+/* GUARANTEE */
+.guarantee-box{max-width:700px;margin:60px auto 0;text-align:center;padding:48px 32px;background:var(--card);border:1px solid var(--border);border-radius:20px;position:relative;z-index:1;box-shadow:var(--shadow)}
+.guarantee-box .g-icon{font-size:40px;margin-bottom:12px}
+.guarantee-box h3{font-size:20px;font-weight:800;margin-bottom:8px}
+.guarantee-box p{font-size:15px;color:var(--text2);max-width:480px;margin:0 auto;line-height:1.7}
+
+/* CTA */
+.cta-section{position:relative;z-index:1;padding:100px 24px}
+.cta-box{max-width:800px;margin:0 auto;text-align:center;padding:80px 48px;border-radius:24px;background:var(--card-dark);position:relative;overflow:hidden}
+.cta-box h2{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-1.5px;margin-bottom:16px;color:var(--text-on-dark);position:relative}
+.cta-box .highlight-text::after{opacity:.4}
+.cta-box p{font-size:17px;color:var(--text-on-dark2);margin-bottom:36px;max-width:500px;margin-left:auto;margin-right:auto;position:relative}
+.cta-box .btn-primary{background:var(--lime);color:var(--card-dark);position:relative}
+.cta-box .btn-primary:hover{box-shadow:0 0 40px var(--lime-glow)}
+
+/* FOOTER */
+.footer{position:relative;z-index:1;padding:48px 24px;border-top:1px solid var(--border)}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.footer-left{display:flex;align-items:center;gap:12px}
+.footer-logo{width:32px;height:32px;background:var(--card-dark);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:11px;color:var(--lime)}
+.footer-copy{font-size:13px;color:var(--text3)}
+.footer-links{display:flex;align-items:center;gap:24px}
+.footer-link{font-size:13px;color:var(--text3);text-decoration:none;transition:color .2s}
+.footer-link:hover{color:var(--text)}
+
+/* ANIMATIONS */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.animate-on-scroll{opacity:0;transform:translateY(30px);transition:all .6s}
+.animate-on-scroll.visible{opacity:1;transform:translateY(0)}
+
+/* MOBILE */
+.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:8px}
+.mobile-menu-btn span{display:block;width:24px;height:2px;background:var(--text2);margin:5px 0;border-radius:2px}
+
+@media(max-width:1100px){
+.pricing-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+.navbar{padding:0 16px;height:64px}
+.nav-logo{width:34px;height:34px;font-size:13px;border-radius:9px}
+.nav-name{font-size:20px}
+.nav-links{display:none;position:fixed;top:64px;left:0;right:0;bottom:0;background:rgba(245,245,240,.98);backdrop-filter:blur(20px);flex-direction:column;padding:32px 24px;gap:8px;border-bottom:1px solid var(--border);z-index:999;overflow-y:auto}
+.nav-links.active{display:flex}
+.nav-links a{font-size:16px;padding:14px 20px;border-radius:12px}
+.nav-btn-cta{text-align:center;justify-content:center;padding:14px 24px;font-size:16px;margin-top:8px}
+.nav-btn-login{text-align:center;justify-content:center;padding:14px 24px;font-size:16px}
+.mobile-menu-btn{display:block;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:10px;transition:background .2s}
+.mobile-menu-btn:active{background:rgba(0,0,0,.04)}
+.mobile-menu-btn span{display:block;width:22px;height:2px;background:var(--text2);margin:4px 0;border-radius:2px;transition:all .3s}
+.hero{min-height:auto;padding:100px 20px 60px}
+.hero-badge{font-size:12px;padding:5px 12px 5px 7px;margin-bottom:24px}
+.hero h1{font-size:clamp(32px,8vw,42px);letter-spacing:-1px;margin-bottom:16px}
+.hero-sub{font-size:15px;margin-bottom:32px;line-height:1.6;max-width:100%}
+.hero-actions{flex-direction:column;gap:12px;margin-bottom:40px}
+.hero-actions .btn-primary,.hero-actions .btn-secondary{width:100%;justify-content:center;padding:16px 24px;font-size:15px;border-radius:14px}
+.hero-proof{gap:0;flex-wrap:nowrap;justify-content:space-between;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 12px;box-shadow:var(--shadow)}
+.proof-item{flex:1;gap:2px}
+.proof-value{font-size:20px}
+.proof-label{font-size:10px;white-space:nowrap}
+.proof-divider{height:32px;margin:0}
+.trust-bar{padding:24px 20px 48px}
+.trust-logos{gap:16px 24px}
+.trust-logo{font-size:14px}
+.section{padding:60px 20px}
+.section-title{font-size:clamp(26px,6vw,36px);letter-spacing:-1px;margin-bottom:12px}
+.section-desc{font-size:15px}
+.features-grid{grid-template-columns:1fr;gap:12px;margin-top:32px}
+.feature-card{padding:24px 20px}
+.feature-icon{width:42px;height:42px;font-size:20px;margin-bottom:14px}
+.feature-card h3{font-size:16px;margin-bottom:6px}
+.feature-card p{font-size:13px}
+.steps-container{flex-direction:column;gap:24px;margin-top:36px}
+.steps-container::before{display:none}
+.step-number{width:48px;height:48px;font-size:20px;border-radius:14px;margin-bottom:14px}
+.quote-section{padding:40px 20px}
+.quote-container{padding:32px 20px;border-radius:18px}
+.quote-text{font-size:17px}
+.pricing-grid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto;gap:16px}
+.price-card{padding:28px 20px;border-radius:18px}
+.price-card.featured{transform:none}
+.price-card.featured:hover{transform:translateY(-2px)}
+.compare-section{margin-top:40px;padding:0 12px}
+.compare-table th,.compare-table td{padding:8px 6px;font-size:10px}
+.compare-table th{font-size:9px}
+.faq-section{margin-top:40px;padding:0 20px}
+.faq-section h2{font-size:22px;margin-bottom:24px}
+.guarantee-box{margin:40px 12px 0;padding:28px 18px}
+.cta-section{padding:60px 20px}
+.cta-box{padding:40px 20px;border-radius:20px}
+.cta-box h2{font-size:clamp(24px,6vw,32px)}
+.cta-box p{font-size:15px;margin-bottom:28px}
+.footer{padding:px 20px}
+.footer-inner{flex-direction:column;gap:14px;text-align:center}
+.footer-links{flex-wrap:wrap;justify-content:center;gap:14px}
+}
+@media(max-width:380px){
+.hero h1{font-size:27px}
+.proof-value{font-size:17px}
+.pricing-grid{max-width:100%}
+.price-amount{font-size:28px}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+<a href="/" class="nav-brand"><div class="nav-logo">O+</div><span class="nav-name">OroFlow</span></a>
+<div class="nav-links" id="navLinks">
+<a href="#features" class="nav-link">Features</a>
+<a href="#how-it-works" class="nav-link">How It Works</a>
+<a href="#pricing" class="nav-link">Pricing</a>
+<a href="/login.html" class="nav-btn-login">Log In</a>
+<a href="/signup.html" class="nav-btn-cta">Start Free Trial &rarr;</a>
+</div>
+<button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<section class="hero"><div class="hero-content">
+<div class="hero-badge"><span class="hero-badge-dot"></span> Launch Pricing &mdash; Up to 60% off for first 100 customers</div>
+<h1>Automate Your Business<br><em>in 30 Seconds</em></h1>
+<p class="hero-sub">AI-powered workflow automation that replaces 80,000 hours of manual work per year. Built for Malaysian businesses. No coding required.</p>
+<div class="hero-actions">
+<a href="/signup.html" class="btn-primary">Start Free 30-Day Trial &rarr;</a>
+<a href="https://wa.me/60163695701?text=Hi!%20I'm%20interested%20in%20OroFlow" class="btn-secondary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Talk to Sales</a>
+</div>
+<div class="hero-proof">
+<div class="proof-item"><span class="proof-value">30s</span><span class="proof-label">Setup Time</span></div><div class="proof-divider"></div>
+<div class="proof-item"><span class="proof-value">50+</span><span class="proof-label">App Integrations</span></div><div class="proof-divider"></div>
+<div class="proof-item"><span class="proof-value">RM 80K</span><span class="proof-label">Saved Per Year</span></div><div class="proof-divider"></div>
+<div class="proof-item"><span class="proof-value">24/7</span><span class="proof-label">Automation</span></div>
+</div>
+</div></section>
+
+<div class="trust-strip animate-on-scroll"><div class="trust-strip-inner"><p class="trust-label">Powering workflows across industries</p><div class="trust-logos"><span class="trust-logo">Security</span><span class="trust-logo">Cleaning</span><span class="trust-logo">Labour Supply</span><span class="trust-logo">Property</span><span class="trust-logo">F&amp;B</span><span class="trust-logo">Retail</span></div></div></div>
+
+<section class="section" id="features"><div class="section-container"><div class="animate-on-scroll"><span class="section-label">Capabilities</span><h2 class="section-title">Enterprise-grade automation,<br>startup simplicity</h2><p class="section-desc">Everything you need to eliminate manual processes and scale your operations.</p></div>
+<div class="features-grid">
+<div class="feature-card animate-on-scroll"><div class="feature-icon">&#129504;</div><h3>AI-Powered Generation</h3><p>Describe what you need in plain English or Bahasa. Our AI builds production-ready workflows in 30 seconds.</p></div>
+<div class="feature-card animate-on-scroll"><div class="feature-icon">&#9889;</div><h3>Save 80,000+ Hours</h3><p>Automate scheduling, incident reports, invoicing, and more. Proven ROI from day one with zero learning curve.</p></div>
+<div class="feature-card animate-on-scroll"><div class="feature-icon">&#128279;</div><h3>50+ App Integrations</h3><p>WhatsApp, Gmail, Google Sheets, Telegram, Slack, Salesforce, Stripe, QuickBooks &mdash; connect everything.</p></div>
+<div class="feature-card animate-on-scroll"><div class="feature-icon">&#127474;&#127486;</div><h3>Built for Malaysia</h3><p>WhatsApp-first support in English and Bahasa. Same timezone, same culture. We understand Malaysian business.</p></div>
+<div class="feature-card animate-on-scroll"><div class="feature-icon">&#128274;</div><h3>Bank-Level Security</h3><p>256-bit AES encryption, PDPA compliant, secure data handling. Your business data stays protected.</p></div>
+<div class="feature-card animate-on-scroll"><div class="feature-icon">&#128176;</div><h3>Zero Risk Guarantee</h3><p>Save RM 80,000/year or get your money back. 30-day free trial, cancel anytime, no questions asked.</p></div>
+</div></div></section>
+
+<section class="section" id="how-it-works"><div class="section-container"><div class="animate-on-scroll" style="text-align:center"><span class="section-label">How It Works</span><h2 class="section-title">Three steps. Thirty seconds.</h2><p class="section-desc" style="margin:0 auto">From idea to automation faster than making a cup of coffee.</p></div>
+<div class="steps-container animate-on-scroll">
+<div class="step-card"><div class="step-number">1</div><h3>Describe It</h3><p>Tell our AI what you want to automate in plain English or Bahasa Malaysia.</p></div>
+<div class="step-card"><div class="step-number">2</div><h3>AI Builds It</h3><p>Our AI generates a production-ready workflow with all the right connections in seconds.</p></div>
+<div class="step-card"><div class="step-number">3</div><h3>Deploy It</h3><p>One click to deploy. Your automation runs 24/7 while you focus on growing your business.</p></div>
+</div></div></section>
+
+<div class="quote-section animate-on-scroll"><div class="quote-container"><div class="quote-icon">&ldquo;</div><p class="quote-text">OroFlow replaced 3 full-time admin staff worth of manual work. Our guard scheduling, incident reports, and client updates all run automatically now.</p><p class="quote-author">Security Operations Director</p><p class="quote-role">Leading Security Company, KL</p></div></div>
+
+<section class="section" id="pricing"><div class="section-container">
+<div class="animate-on-scroll" style="text-align:center"><span class="section-label">Pricing</span><h2 class="section-title">Less than RM 20/day to<br>automate your entire business</h2><p class="section-desc" style="margin:0 auto">Every plan includes a 30-day free trial. No credit card required.</p></div>
+<div class="toggle-wrap animate-on-scroll"><span class="toggle-label active" id="monthlyLabel">Monthly</span><div class="toggle-track" id="billingToggle" onclick="toggleBilling()"><div class="toggle-knob"></div></div><span class="toggle-label" id="annualLabel">Annual</span><span class="save-badge">Save 20%</span></div>
+<div class="launch-banner animate-on-scroll"><p class="launch-text">&#9889; <b>Launch Pricing</b> &mdash; Up to 60% off for our first 100 customers. Lock in your rate forever.</p></div>
+
+<div class="pricing-grid">
+<div class="price-card animate-on-scroll"><p class="price-tier">Starter</p><p class="price-original" id="starterOrig">RM 1,488/mo</p><p class="price-amount"><span id="starterPrice">RM 588</span> <span>/month</span></p><p class="price-annual-note" id="starterAnnual">&nbsp;</p><p class="price-save-tag">Save 60%</p><p class="price-desc">For micro businesses getting started with automation</p><ul class="price-features"><li><span class="check">&#10003;</span> 5 core apps (WhatsApp, Gmail, Sheets, Telegram, Webhook)</li><li><span class="check">&#10003;</span> Workflows up to 5 steps</li><li><span class="check">&#10003;</span> AI-powered generation</li><li><span class="check">&#10003;</span> 10 workflows per month</li><li><span class="check">&#10003;</span> JSON export &amp; download</li><li><span class="check">&#10003;</span> Email support</li></ul><a href="/signup.html" class="price-btn price-btn-outline">Start Free Trial</a></div>
+
+<div class="price-card animate-on-scroll"><p class="price-tier">Basic</p><p class="price-original" id="basicOrig">RM 1,988/mo</p><p class="price-amount"><span id="basicPrice">RM 988</span> <span>/month</span></p><p class="price-annual-note" id="basicAnnual">&nbsp;</p><p class="price-save-tag">Save 50%</p><p class="price-desc">For small teams ready to scale their operations</p><ul class="price-features"><li><span class="check">&#10003;</span> Everything in Starter</li><li><span class="check">&#10003;</span> 15 apps + Schedule, Forms, HTTP, Slack</li><li><span class="check">&#10003;</span> Workflows up to 10 steps</li><li><span class="check">&#10003;</span> Unlimited workflows</li><li><span class="check">&#10003;</span> Conditional logic (IF/Switch)</li><li><span class="check">&#10003;</span> Email support</li></ul><a href="/signup.html" class="price-btn price-btn-outline">Start Free Trial</a></div>
+
+<div class="price-card featured animate-on-scroll"><div class="price-badge">Most Popular</div><p class="price-tier">Professional</p><p class="price-original" id="proOrig">RM 4,888/mo</p><p class="price-amount"><span id="proPrice">RM 2,888</span> <span>/month</span></p><p class="price-annual-note" id="proAnnual">&nbsp;</p><p class="price-save-tag">Save 41%</p><p class="price-desc">For growing companies that need advanced automation</p><ul class="price-features"><li><span class="check">&#10003;</span> Everything in Basic</li><li><span class="check premium">&#9733;</span> 40+ premium apps (Salesforce, Stripe, Zoom)</li><li><span class="check premium">&#9733;</span> Workflows up to 25 steps</li><li><span class="check premium">&#9733;</span> Error handling &amp; retry logic</li><li><span class="check premium">&#9733;</span> Priority WhatsApp support (24h)</li><li><span class="check premium">&#9733;</span> Templates library</li><li><span class="check premium">&#9733;</span> Hosted n8n instance</li></ul><a href="/signup.html" class="price-btn price-btn-primary">Start Free Trial</a></div>
+
+<div class="price-card animate-on-scroll"><p class="price-tier">Enterprise</p><p class="price-original" id="entOrig">RM 12,888/mo</p><p class="price-amount"><span id="entPrice">RM 8,888</span> <span>/month</span></p><p class="price-annual-note" id="entAnnual">&nbsp;</p><p class="price-save-tag">Save 31%</p><p class="price-desc">Full-service automation with dedicated account manager</p><ul class="price-features"><li><span class="check">&#10003;</span> Everything in Professional</li><li><span class="check premium">&#9733;</span> Unlimited steps &amp; complexity</li><li><span class="check premium">&#9733;</span> Custom integrations built for you</li><li><span class="check premium">&#9733;</span> Dedicated account manager</li><li><span class="check premium">&#9733;</span> 1-on-1 training sessions</li><li><span class="check premium">&#9733;</span> Custom SLA &amp; white-label option</li><li><span class="check premium">&#9733;</span> Dedicated n8n instance</li></ul><a href="https://wa.me/60163695701?text=I%20want%20Enterprise%20plan" class="price-btn price-btn-outline">Contact Sales</a></div>
+</div></div></section>
+
+<div class="compare-section animate-on-scroll"><div class="compare-header"><h2>Compare all features</h2><p>See exactly what you get with each plan</p></div>
+<table class="compare-table"><thead><tr><th>Feature</th><th>Starter</th><th>Basic</th><th class="col-pro">Professional</th><th>Enterprise</th></tr></thead><tbody>
+<tr><td>App integrations</td><td>5 core</td><td>15 apps</td><td class="col-pro">40+ apps</td><td>Unlimited</td></tr>
+<tr><td>Workflow steps</td><td>5 steps</td><td>10 steps</td><td class="col-pro">25 steps</td><td>Unlimited</td></tr>
+<tr><td>Workflows/month</td><td>10</td><td>Unlimited</td><td class="col-pro">Unlimited</td><td>Unlimited</td></tr>
+<tr><td>AI generation</td><td class="feat-yes">&#10003;</td><td class="feat-yes">&#10003;</td><td class="col-pro feat-yes">&#10003;</td><td class="feat-yes">&#10003;</td></tr>
+<tr><td>Conditional logic</td><td class="feat-no">&#10007;</td><td class="feat-yes">&#10003;</td><td class="col-pro feat-yes">&#10003;</td><td class="feat-yes">&#10003;</td></tr>
+<tr><td>Error handling</td><td class="feat-no">&#10007;</td><td class="feat-no">&#10007;</td><td class="col-pro feat-yes">&#10003;</td><td class="feat-yes">&#10003;</td></tr>
+<tr><td>Templates library</td><td class="feat-no">&#10007;</td><td class="feat-no">&#10007;</td><td class="col-pro feat-yes">&#10003;</td><td class="feat-yes">&#10003;</td></tr>
+<tr><td>Hosted n8n</td><td class="feat-no">&#10007;</td><td class="feat-no">&#10007;</td><td class="col-pro feat-yes">&#10003;</td><td>Dedicated</td></tr>
+<tr><td>Custom integrations</td><td class="feat-no">&#10007;</td><td class="feat-no">&#10007;</td><td class="col-pro feat-no">&#10007;</td><td class="feat-yes">&#10003;</td></tr>
+<tr><td>Account manager</td><td class="feat-no">&#10007;</td><td class="feat-no">&#10007;</td><td class="col-pro feat-no">&#10007;</td><td>Dedicated</td></tr>
+<tr><td>1-on-1 training</td><td class="feat-no">&#10007;</td><td class="feat-no">&#10007;</td><td class="col-pro feat-no">&#10007;</td><td class="feat-yes">&#10003;</td></tr>
+<tr><td>Support</td><td>Email</td><td>Email</td><td class="col-pro">WhatsApp 24h</td><td>Custom SLA</td></tr>
+</tbody></table></div>
+
+<div class="faq-section animate-on-scroll"><h2>Frequently asked questions</h2>
+<div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I switch plans anytime?<span class="faq-arrow">&#9660;</span></div><div class="faq-a">Yes! Upgrade or downgrade at any time. Upgrades are prorated. Downgrades take effect at your next billing cycle.</div></div>
+<div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is the 30-day trial really free?<span class="faq-arrow">&#9660;</span></div><div class="faq-a">Absolutely. No credit card required. Full access for 30 days. If you don't upgrade, your account simply pauses.</div></div>
+<div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How long will launch pricing last?<span class="faq-arrow">&#9660;</span></div><div class="faq-a">Launch pricing is available for our first 100 customers. Once you lock in your rate, it stays the same even after prices increase.</div></div>
+<div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What payment methods do you accept?<span class="faq-arrow">&#9660;</span></div><div class="faq-a">Bank transfer (FPX), credit/debit cards, and online banking. Enterprise customers can pay via invoice with NET-30 terms.</div></div>
+<div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What happens to my workflows if I cancel?<span class="faq-arrow">&#9660;</span></div><div class="faq-a">All your workflow JSON files are yours to keep. Export anytime. After cancellation, data remains accessible for 30 days.</div></div>
+<div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Do you offer annual billing discounts?<span class="faq-arrow">&#9660;</span></div><div class="faq-a">Yes! Toggle annual billing above to save an extra 20% on top of launch pricing. Massive savings.</div></div>
+</div>
+
+<div class="guarantee-box animate-on-scroll"><div class="g-icon">&#128737;&#65039;</div><h3>30-Day Money-Back Guarantee</h3><p>Not satisfied? Full refund, no questions asked. We are that confident OroFlow will transform your operations.</p></div>
+
+<section class="cta-section"><div class="cta-box animate-on-scroll"><h2>Ready to automate<br><em>your business?</em></h2><p>Join Malaysian businesses saving thousands of hours with AI-powered automation. Lock in launch pricing today.</p><a href="/signup.html" class="btn-cta">Start Free Trial &mdash; It's Free &rarr;</a></div></section>
+
+<footer class="footer"><div class="footer-inner"><div class="footer-left"><div class="footer-logo">O+</div><span class="footer-copy">&copy; 2026 ORO+. All rights reserved.</span></div><div class="footer-links"><a href="/privacy.html" class="footer-link">Privacy Policy</a><a href="/terms.html" class="footer-link">Terms of Service</a><a href="https://wa.me/60163695701" class="footer-link">Contact</a></div></div></footer>
+
+<!-- Scroll Progress Bar -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<script>
+/* ==================== CORE NAV & SCROLL ==================== */
+var navbar=document.getElementById('navbar'),scrollProg=document.getElementById('scrollProgress');
+var ticking=false;
+window.addEventListener('scroll',function(){
+if(!ticking){requestAnimationFrame(function(){
+navbar.classList.toggle('scrolled',window.scrollY>20);
+var h=document.documentElement.scrollHeight-window.innerHeight;
+scrollProg.style.width=(window.scrollY/h*100)+'%';
+updateNavActive();
+ticking=false});ticking=true}
+},{passive:true});
+
+/* ==================== ACTIVE NAV LINK ==================== */
+var sections=document.querySelectorAll('section[id]');
+function updateNavActive(){
+var scrollY=window.scrollY+200;
+sections.forEach(function(s){
+var top=s.offsetTop,h=s.offsetHeight,id=s.getAttribute('id');
+var link=document.querySelector('.nav-link[href="#'+id+'"]');
+if(link){if(scrollY>=top&&scrollY<top+h){link.classList.add('nav-active')}else{link.classList.remove('nav-active')}}
+})}
+
+/* ==================== MOBILE MENU ==================== */
+var mobileMenuBtn=document.getElementById('mobileMenuBtn'),navLinks=document.getElementById('navLinks');
+mobileMenuBtn.addEventListener('click',function(){
+navLinks.classList.toggle('active');
+this.classList.toggle('open');
+});
+navLinks.querySelectorAll('a').forEach(function(l){l.addEventListener('click',function(){
+navLinks.classList.remove('active');
+mobileMenuBtn.classList.remove('open');
+})});
+
+/* ==================== SCROLL REVEAL ==================== */
+var observer=new IntersectionObserver(function(e){e.forEach(function(el){if(el.isIntersecting){el.target.classList.add('visible');observer.unobserve(el.target)}})},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.animate-on-scroll').forEach(function(el){observer.observe(el)});
+
+/* ==================== STAGGERED CHILDREN ==================== */
+var staggerObs=new IntersectionObserver(function(entries){entries.forEach(function(entry){
+if(entry.isIntersecting){
+var children=entry.target.querySelectorAll('.feature-card,.price-card,.trust-logo,.step-card');
+children.forEach(function(child,i){
+setTimeout(function(){child.classList.add('stagger-in')},i*80);
+});
+staggerObs.unobserve(entry.target);
+}
+})},{threshold:.1});
+document.querySelectorAll('.features-grid,.pricing-grid,.trust-logos,.steps-container').forEach(function(el){staggerObs.observe(el)});
+
+/* ==================== FEATURE CARD TILT ==================== */
+document.querySelectorAll('.feature-card').forEach(function(card){
+card.addEventListener('mousemove',function(e){
+var rect=this.getBoundingClientRect();
+var x=(e.clientX-rect.left)/rect.width-.5;
+var y=(e.clientY-rect.top)/rect.height-.5;
+this.style.transform='translateY(-3px) perspective(600px) rotateY('+x*4+'deg) rotateX('+(-y*4)+'deg)';
+});
+card.addEventListener('mouseleave',function(){
+this.style.transform='';
+});
+});
+
+/* ==================== PRICING CARD GLOW ==================== */
+document.querySelectorAll('.price-card').forEach(function(card){
+card.addEventListener('mousemove',function(e){
+var rect=this.getBoundingClientRect();
+var x=e.clientX-rect.left;
+var y=e.clientY-rect.top;
+this.style.setProperty('--glow-x',x+'px');
+this.style.setProperty('--glow-y',y+'px');
+});
+});
+
+/* ==================== NUMBER COUNT UP ==================== */
+function countUp(el,target,suffix,duration){
+suffix=suffix||'';
+duration=duration||1200;
+var start=0,startTime=null;
+var isRM=target.toString().indexOf('K')>-1;
+if(isRM){target=80;suffix='K'}
+function step(ts){
+if(!startTime)startTime=ts;
+var p=Math.min((ts-startTime)/duration,1);
+var ease=1-Math.pow(1-p,3);
+var val=Math.round(ease*target);
+if(suffix==='K')el.textContent='RM '+val+suffix;
+else if(suffix==='+')el.textContent=val+suffix;
+else if(suffix==='s')el.textContent=val+suffix;
+else el.textContent=val+suffix;
+if(p<1)requestAnimationFrame(step);
+}
+requestAnimationFrame(step);
+}
+var proofObs=new IntersectionObserver(function(entries){entries.forEach(function(entry){
+if(entry.isIntersecting){
+var vals=entry.target.querySelectorAll('.proof-value');
+vals.forEach(function(v){
+var t=v.textContent.trim();
+if(t==='30s')countUp(v,30,'s',800);
+else if(t==='50+')countUp(v,50,'+',1000);
+else if(t==='RM 80K')countUp(v,80,'K',1200);
+else if(t==='24/7'){v.style.opacity='0';setTimeout(function(){v.textContent='24/7';v.style.transition='opacity .4s';v.style.opacity='1'},400)}
+});
+proofObs.unobserve(entry.target);
+}
+})},{threshold:.5});
+var proofRow=document.querySelector('.hero-proof');
+if(proofRow)proofObs.observe(proofRow);
+
+/* ==================== SMOOTH ANCHOR SCROLL ==================== */
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+a.addEventListener('click',function(e){
+var target=document.querySelector(this.getAttribute('href'));
+if(target){e.preventDefault();var y=target.getBoundingClientRect().top+window.scrollY-80;
+window.scrollTo({top:y,behavior:'smooth'})}
+});
+});
+
+/* ==================== FAQ SMOOTH ==================== */
+function toggleFaq(el){
+var wasOpen=el.classList.contains('open');
+document.querySelectorAll('.faq-item.open').forEach(function(item){item.classList.remove('open')});
+if(!wasOpen)el.classList.add('open');
+}
+
+/* ==================== BILLING TOGGLE ==================== */
+var isAnnual=false;
+function toggleBilling(){
+isAnnual=!isAnnual;
+document.getElementById('billingToggle').classList.toggle('annual',isAnnual);
+document.getElementById('monthlyLabel').classList.toggle('active',!isAnnual);
+document.getElementById('annualLabel').classList.toggle('active',isAnnual);
+var prices=[
+{id:'starterPrice',m:'RM 588',a:'RM 470',oid:'starterOrig',om:'RM 1,488/mo',oa:'RM 1,190/mo',aid:'starterAnnual',an:'Billed RM 5,640/yr','sv':'Save RM 1,416'},
+{id:'basicPrice',m:'RM 988',a:'RM 790',oid:'basicOrig',om:'RM 1,988/mo',oa:'RM 1,590/mo',aid:'basicAnnual',an:'Billed RM 9,480/yr','sv':'Save RM 2,376'},
+{id:'proPrice',m:'RM 2,888',a:'RM 2,310',oid:'proOrig',om:'RM 4,888/mo',oa:'RM 3,910/mo',aid:'proAnnual',an:'Billed RM 27,720/yr','sv':'Save RM 6,936'},
+{id:'entPrice',m:'RM 8,888',a:'RM 7,110',oid:'entOrig',om:'RM 12,888/mo',oa:'RM 10,310/mo',aid:'entAnnual',an:'Billed RM 85,320/yr','sv':'Save RM 21,336'}
+];
+prices.forEach(function(p){
+var el=document.getElementById(p.id);
+el.style.opacity='0';el.style.transform='translateY(-4px)';
+setTimeout(function(){
+el.textContent=isAnnual?p.a:p.m;
+el.style.transition='all .25s cubic-bezier(.4,0,.2,1)';
+el.style.opacity='1';el.style.transform='translateY(0)';
+},120);
+document.getElementById(p.oid).textContent=isAnnual?p.oa:p.om;
+document.getElementById(p.aid).innerHTML=isAnnual?p.an+' \u2014 <span style="color:#16a34a">'+p.sv+'</span>':'\u00a0';
+});
+}
+
+/* ==================== BACK TO TOP (shows after scrolling) ==================== */
+var btt=document.createElement('button');
+btt.className='back-to-top';
+btt.innerHTML='&#8593;';
+btt.setAttribute('aria-label','Back to top');
+document.body.appendChild(btt);
+btt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+window.addEventListener('scroll',function(){btt.classList.toggle('btt-visible',window.scrollY>600)},{passive:true});
+
+/* ==================== CTA BOX GLOW FOLLOW ==================== */
+var ctaBox=document.querySelector('.cta-box');
+if(ctaBox){ctaBox.addEventListener('mousemove',function(e){
+var rect=this.getBoundingClientRect();
+this.style.setProperty('--cx',(e.clientX-rect.left)+'px');
+this.style.setProperty('--cy',(e.clientY-rect.top)+'px');
+})}
+</script>
+</body>
+</html>

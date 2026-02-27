@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — OroFlow</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html{-webkit-font-smoothing:antialiased}body{font-family:'Outfit',sans-serif;background:#f5f5f0;background-image:radial-gradient(circle,#d5d5cf 1px,transparent 1px);background-size:28px 28px;background-attachment:fixed;color:#1a1a1a;min-height:100vh;overflow-x:hidden}h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;letter-spacing:-.02em}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:250px;background:#1a1a1a;z-index:100;display:flex;flex-direction:column;border-right:1px solid #2a2a2a;transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.sidebar-brand{display:flex;align-items:center;gap:11px;padding:24px 20px 32px;text-decoration:none}
+.sidebar-logo{width:36px;height:36px;background:#E2FF00;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:13px;color:#1a1a1a}
+.sidebar-name{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:#f0f0eb;letter-spacing:-.03em}
+.sidebar-nav{flex:1;padding:0 10px;overflow-y:auto}
+.nav-section{font-size:10px;font-weight:700;color:#a3a3a3;text-transform:uppercase;letter-spacing:2px;padding:18px 14px 7px}
+.nav-item{display:flex;align-items:center;gap:11px;padding:10px 14px;border-radius:9px;color:#a3a3a3;font-size:13px;font-weight:500;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);text-decoration:none;margin-bottom:2px}
+.nav-item:hover{color:#f0f0eb;background:rgba(255,255,255,.05)}
+.nav-item.active{color:#1a1a1a;background:#E2FF00;font-weight:600}
+.nav-icon{width:18px;text-align:center;font-size:14px}
+.sidebar-footer{padding:14px 10px;border-top:1px solid #2a2a2a}
+.user-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid #2a2a2a}
+.user-avatar{width:32px;height:32px;background:#E2FF00;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#1a1a1a;flex-shrink:0}
+.user-info{flex:1;min-width:0}
+.user-name-display{font-size:12px;font-weight:600;color:#f0f0eb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-plan-display{font-size:10px;color:#E2FF00;font-weight:500}
+.logout-btn{background:none;border:none;color:#a3a3a3;cursor:pointer;font-size:13px;padding:3px;transition:color .2s}
+.logout-btn:hover{color:#f87171}
+.mobile-toggle{display:none;position:fixed;top:14px;left:14px;z-index:200;width:40px;height:40px;background:#1a1a1a;border:none;border-radius:9px;color:#E2FF00;font-size:18px;cursor:pointer}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
+.main{margin-left:250px;min-height:100vh}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:rgba(245,245,240,.8);backdrop-filter:blur(12px);border-bottom:1px solid #e0e0da;position:sticky;top:0;z-index:50}
+.topbar h1{font-size:20px;font-weight:800;letter-spacing:-.03em}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.topbar-badge{font-size:10px;font-weight:700;background:#E2FF00;color:#1a1a1a;padding:3px 9px;border-radius:5px}
+.content{padding:32px}
+.page{display:none}.page.active{display:block}
+.generator-card{background:#ffffff;border:1px solid #e0e0da;border-radius:14px;padding:32px;max-width:780px;box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.03);transition:box-shadow .2s}
+.generator-card h2{font-size:18px;font-weight:700;margin-bottom:3px}
+.gen-desc{color:#555;font-size:13px;margin-bottom:24px}
+.step-row{display:flex;gap:14px;align-items:start;margin-bottom:14px}
+.step-num{width:30px;height:30px;background:#1a1a1a;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#E2FF00;flex-shrink:0;margin-top:3px;font-family:'Space Grotesk',sans-serif}
+.step-content{flex:1}
+.step-label{font-size:12px;font-weight:600;color:#555;margin-bottom:6px}
+.trigger-select,.action-select{width:100%;padding:11px 14px;background:#f5f5f0;border:1px solid #e0e0da;border-radius:9px;color:#1a1a1a;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b6b6b'%3E%3Cpath d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.trigger-select:focus,.action-select:focus{border-color:#1a1a1a;box-shadow:0 0 0 3px rgba(226,255,0,.10)}
+.add-step-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#f5f5f0;border:1px solid #e0e0da;border-radius:7px;color:#555;font-size:12px;font-weight:500;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);margin:6px 0 18px}
+.add-step-btn:hover{border-color:#1a1a1a;color:#1a1a1a}
+.desc-area{width:100%;padding:12px 14px;background:#f5f5f0;border:1px solid #e0e0da;border-radius:9px;color:#1a1a1a;font-family:'Outfit',sans-serif;font-size:13px;resize:vertical;min-height:72px;transition:all .25s cubic-bezier(.4,0,.2,1);outline:none}
+.desc-area::placeholder{color:#888}
+.desc-area:focus{border-color:#1a1a1a;box-shadow:0 0 0 3px rgba(226,255,0,.10)}
+.generate-btn{width:100%;padding:14px;background:#1a1a1a;color:#E2FF00;border:none;border-radius:11px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);margin-top:6px;letter-spacing:-.01em}
+.generate-btn:hover{background:#0d0d0d;box-shadow:0 0 20px rgba(226,255,0,.25);transform:translateY(-1px)}
+.generate-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.result-area{margin-top:18px;padding:22px;background:rgba(226,255,0,.06);border:1px solid rgba(226,255,0,.2);border-radius:11px;display:none}
+.result-title{font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:7px;font-family:'Space Grotesk',sans-serif}
+.result-instructions{font-size:12px;color:#555;margin-bottom:14px;line-height:1.6}
+.result-json{background:#1a1a1a;color:#E2FF00;padding:14px;border-radius:9px;font-family:'Courier New',monospace;font-size:11px;max-height:200px;overflow:auto;margin-bottom:14px;white-space:pre-wrap;word-break:break-all}
+.result-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn-primary{padding:9px 18px;border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);border:none;background:#1a1a1a;color:#E2FF00}
+.btn-primary:hover{box-shadow:0 0 14px rgba(226,255,0,.25);transform:translateY(-1px)}
+.btn-outline{padding:9px 18px;border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);background:#ffffff;color:#1a1a1a;border:1px solid #e0e0da}
+.btn-outline:hover{border-color:#1a1a1a;background:#f5f5f0}
+.loading-spinner{display:none;text-align:center;padding:28px;color:#888;font-size:13px}
+.spinner{width:28px;height:28px;border:3px solid #e0e0da;border-top:3px solid #1a1a1a;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.section-title{font-size:17px;font-weight:700;margin-bottom:5px}
+.section-desc{font-size:13px;color:#555;margin-bottom:20px}
+.filter-bar{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.filter-btn{padding:6px 14px;border:1px solid #e0e0da;border-radius:7px;background:#ffffff;font-size:11px;font-weight:600;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);color:#555}
+.filter-btn:hover{border-color:#1a1a1a;color:#1a1a1a}
+.filter-btn.active{background:rgba(226,255,0,.10);border-color:#1a1a1a;color:#1a1a1a}
+.template-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;max-width:860px}
+.template-card{background:#ffffff;border:1px solid #e0e0da;border-radius:14px;padding:22px;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.03)}
+.template-card:hover{border-color:#1a1a1a;transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.template-icon{font-size:26px;margin-bottom:10px}
+.template-card h3{font-size:14px;font-weight:700;margin-bottom:5px}
+.template-card p{font-size:12px;color:#555;line-height:1.5;margin-bottom:12px}
+.template-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.template-cat{font-size:9px;font-weight:700;color:#1a1a1a;background:#E2FF00;padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.5px}
+.template-uses{font-size:10px;color:#888}
+.template-actions{display:flex;gap:6px}
+.wf-list{max-width:780px}
+.wf-card{background:#ffffff;border:1px solid #e0e0da;border-radius:14px;padding:18px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.03);transition:all .25s cubic-bezier(.4,0,.2,1)}
+.wf-card:hover{border-color:#1a1a1a;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.wf-info{flex:1;min-width:0}
+.wf-name{font-size:14px;font-weight:600;margin-bottom:2px}
+.wf-desc{font-size:11px;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wf-date{font-size:10px;color:#888;margin-top:3px}
+.wf-actions{display:flex;gap:6px;flex-shrink:0}
+.wf-btn{padding:6px 12px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);border:none;font-family:'Space Grotesk',sans-serif}
+.wf-btn-dark{background:#1a1a1a;color:#E2FF00}
+.wf-btn-dark:hover{box-shadow:0 0 10px rgba(226,255,0,.25)}
+.wf-btn-outline{background:none;border:1px solid #e0e0da;color:#555}
+.wf-btn-outline:hover{border-color:#1a1a1a;color:#1a1a1a}
+.wf-btn-danger{background:none;border:1px solid #fecaca;color:#dc2626}
+.wf-btn-danger:hover{background:#fef2f2}
+.empty-state{text-align:center;padding:48px 20px;color:#888}
+.empty-state .empty-icon{font-size:40px;margin-bottom:12px;opacity:.4}
+.empty-state p{font-size:13px}
+.upgrade-banner{background:#1a1a1a;border-radius:14px;padding:24px;margin-top:24px;display:flex;align-items:center;justify-content:space-between;max-width:780px}
+.upgrade-banner h3{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#f0f0eb;margin-bottom:3px}
+.upgrade-banner p{font-size:12px;color:#a3a3a3}
+.upgrade-btn{padding:10px 24px;background:#E2FF00;color:#1a1a1a;border:none;border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .25s cubic-bezier(.4,0,.2,1);text-decoration:none}
+.upgrade-btn:hover{box-shadow:0 0 18px rgba(226,255,0,.25);transform:translateY(-1px)}
+.settings-card{background:#ffffff;border:1px solid #e0e0da;border-radius:14px;padding:28px;max-width:560px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.03)}
+.settings-card h3{font-size:16px;font-weight:700;margin-bottom:18px}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #e0e0da}
+.settings-row:last-child{border-bottom:none}
+.sr-label{font-size:12px;color:#555}
+.sr-value{font-size:13px;font-weight:500}
+.settings-input{padding:10px 14px;background:#f5f5f0;border:1px solid #e0e0da;border-radius:9px;font-family:'Outfit',sans-serif;font-size:13px;color:#1a1a1a;outline:none;width:100%;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.settings-input:focus{border-color:#1a1a1a;box-shadow:0 0 0 3px rgba(226,255,0,.10)}
+.toast{position:fixed;top:16px;right:16px;padding:11px 20px;border-radius:9px;font-size:12px;font-weight:500;z-index:9999;display:none;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.toast-success{background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.15);color:#16a34a}
+.toast-error{background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.15);color:#dc2626}
+.pw-wrapper{position:relative}
+.pw-wrapper input{width:100%;padding-right:44px}
+.pw-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#888;font-size:16px;padding:4px;line-height:1;transition:color .2s}
+.pw-toggle:hover{color:#1a1a1a}
+.step-row{position:relative}
+.step-delete{position:absolute;top:6px;right:0;background:none;border:1px solid #fecaca;color:#dc2626;width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s;line-height:1}
+.step-delete:hover{background:#fef2f2;border-color:#dc2626}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .2s}
+.modal-overlay.open{opacity:1}
+.modal{background:#fff;border-radius:16px;padding:28px;max-width:600px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.15)}
+.modal h3{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px}
+.modal-desc{font-size:13px;color:#555;margin-bottom:16px;line-height:1.5}
+.modal-json{background:#1a1a1a;color:#E2FF00;padding:14px;border-radius:9px;font-family:'Courier New',monospace;font-size:11px;max-height:300px;overflow:auto;white-space:pre-wrap;word-break:break-all;margin-bottom:16px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end}
+.modal-close{padding:9px 18px;border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;cursor:pointer;background:#f5f5f0;color:#1a1a1a;border:1px solid #e0e0da;transition:all .2s}
+.modal-close:hover{border-color:#1a1a1a}
+@media(max-width:768px){
+.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.sidebar-overlay.open{display:block}
+.main{margin-left:0}.mobile-toggle{display:flex;align-items:center;justify-content:center}
+.content{padding:20px}.topbar{padding:18px 20px 18px 60px}
+.upgrade-banner{flex-direction:column;gap:14px;text-align:center}
+.result-actions{flex-direction:column}.wf-card{flex-direction:column;align-items:flex-start;gap:10px}.wf-actions{width:100%}
+}
+</style>
+</head>
+<body>
+<button class="mobile-toggle" onclick="toggleSidebar()">&#9776;</button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+<div class="sidebar" id="sidebar">
+<a class="sidebar-brand" href="/"><div class="sidebar-logo">O+</div><span class="sidebar-name">OroFlow</span></a>
+<div class="sidebar-nav">
+<div class="nav-section">Main</div>
+<a class="nav-item active" onclick="showPage('generate',this)"><span class="nav-icon">&#10022;</span>Generate Workflow</a>
+<a class="nav-item" onclick="showPage('workflows',this)"><span class="nav-icon">&#128202;</span>My Workflows</a>
+<a class="nav-item" onclick="showPage('templates',this)"><span class="nav-icon">&#128218;</span>Template Library</a>
+<div class="nav-section">Account</div>
+<a class="nav-item" onclick="showPage('settings',this)"><span class="nav-icon">&#9881;</span>Settings</a>
+<a class="nav-item" href="/upgrade.html"><span class="nav-icon">&#11088;</span>Upgrade Plan</a>
+</div>
+<div class="sidebar-footer">
+<div class="user-card">
+<div class="user-avatar" id="userAvatar">—</div>
+<div class="user-info"><div class="user-name-display" id="userName">Loading...</div><div class="user-plan-display" id="userPlan">—</div></div>
+<button class="logout-btn" onclick="logout()" title="Logout">&#8599;</button>
+</div>
+</div>
+</div>
+<div class="main">
+<div class="topbar">
+<div style="display:flex;align-items:center;gap:12px"><h1 id="pageTitle">AI Workflow Generator</h1><span class="topbar-badge">BETA</span></div>
+</div>
+<div class="content">
+<!-- GENERATE PAGE -->
+<div class="page active" id="page-generate">
+<div class="generator-card">
+<h2>Build Your Workflow</h2>
+<p class="gen-desc">Describe what you need and our AI will generate an n8n-compatible workflow.</p>
+<p class="gen-desc" id="usageInfo" style="color:#888;font-size:12px;margin-bottom:20px;padding:8px 12px;background:rgba(226,255,0,.06);border:1px solid rgba(226,255,0,.15);border-radius:8px">Loading plan info...</p>
+<div id="stepsContainer">
+<div class="step-row"><div class="step-num">1</div><div class="step-content"><div class="step-label">When this happens (Trigger)</div><select class="trigger-select" id="triggerSelect"><option value="">Select trigger...</option><option>Google Form Submitted</option><option>Webhook Received</option><option>Schedule (Cron)</option><option>Email Received</option><option>Manual Trigger</option></select></div></div>
+<div class="step-row"><div class="step-num">2</div><div class="step-content"><div class="step-label">Then do this (Action)</div><select class="action-select"><option value="">Select action...</option><option>WhatsApp</option><option>Gmail</option><option>Google Sheets</option><option>Telegram</option><option>Slack</option></select></div></div>
+</div>
+<button class="add-step-btn" onclick="addStep()">+ Add another step</button>
+<div class="step-label" style="margin-bottom:6px">Describe what this workflow should do</div>
+<textarea class="desc-area" id="descArea" placeholder="Example: When a new guard check-in is submitted via Google Form, send a WhatsApp message to the supervisor and log it in Google Sheets"></textarea>
+<button class="generate-btn" id="generateBtn" onclick="generateWorkflow()">&#9889; Generate Workflow</button>
+<div class="loading-spinner" id="loadingSpinner"><div class="spinner"></div>Generating your workflow...</div>
+<div class="result-area" id="resultArea">
+<div class="result-title">&#9989; Your Workflow is Ready!</div>
+<p class="result-instructions">Copy the JSON below and import it into your n8n instance. Go to <strong>Workflows &rarr; Import from JSON</strong> and paste.</p>
+<div class="result-json" id="resultJson"></div>
+<div class="result-actions">
+<button class="btn-primary" onclick="copyWorkflow()">&#128203; Copy JSON</button>
+<button class="btn-outline" onclick="downloadWorkflow()">&#11015; Download .json</button>
+<button class="btn-outline" onclick="saveWorkflow()">&#128190; Save to My Workflows</button>
+</div>
+</div>
+</div>
+<div class="upgrade-banner" id="upgradeBanner">
+<div><h3>Unlock Unlimited Workflows</h3><p>Upgrade for unlimited AI generations and priority support.</p></div>
+<a class="upgrade-btn" href="/upgrade.html">Upgrade Now &rarr;</a>
+</div>
+</div>
+<!-- WORKFLOWS PAGE -->
+<div class="page" id="page-workflows">
+<div class="section-title">My Workflows</div>
+<p class="section-desc">Your saved workflow automations.</p>
+<div class="wf-list" id="wfList"><div class="empty-state"><div class="empty-icon">&#128194;</div><p>No saved workflows yet. Generate one and save it!</p></div></div>
+</div>
+<!-- TEMPLATES PAGE -->
+<div class="page" id="page-templates">
+<div class="section-title">Template Library</div>
+<p class="section-desc">Pre-built workflow templates. Click to use instantly.</p>
+<div class="filter-bar" id="filterBar"><button class="filter-btn active" onclick="filterTemplates('all',this)">All</button></div>
+<div class="template-grid" id="templateGrid"></div>
+</div>
+<!-- SETTINGS PAGE -->
+<div class="page" id="page-settings">
+<div class="settings-card">
+<h3>Profile</h3>
+<div class="settings-row"><span class="sr-label">Name</span><span class="sr-value" id="settingsName">—</span></div>
+<div class="settings-row"><span class="sr-label">Email</span><span class="sr-value" id="settingsEmail">—</span></div>
+<div class="settings-row"><span class="sr-label">Plan</span><span class="sr-value" id="settingsPlan" style="color:#E2FF00;background:#1a1a1a;padding:3px 10px;border-radius:6px;font-size:11px;font-family:'Space Grotesk',sans-serif;font-weight:700">—</span></div>
+</div>
+<div class="settings-card">
+<h3>Change Password</h3>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div class="pw-wrapper"><input type="password" class="settings-input" id="newPass" placeholder="New password (min 8 chars)"><button type="button" class="pw-toggle" onclick="togglePw('newPass',this)">&#128065;</button></div>
+<div class="pw-wrapper"><input type="password" class="settings-input" id="confPass" placeholder="Confirm new password"><button type="button" class="pw-toggle" onclick="togglePw('confPass',this)">&#128065;</button></div>
+<button class="btn-primary" style="width:fit-content" onclick="changePassword()">Update Password</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-overlay" id="previewModal" onclick="if(event.target===this)closePreview()">
+<div class="modal">
+<h3 id="previewTitle"></h3>
+<p class="modal-desc" id="previewDesc"></p>
+<div class="modal-json" id="previewJson"></div>
+<div class="modal-actions">
+<button class="btn-primary" style="font-size:12px;padding:9px 16px" id="previewUseBtn">Use Template</button>
+<button class="modal-close" onclick="closePreview()">Close</button>
+</div>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<!-- Supabase JS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+<script>
+// ============================================
+// SUPABASE INIT
+// ============================================
+var SUPABASE_URL = 'https://xsqfdhymfgrobzovfgjf.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhzcWZkaHltZmdyb2J6b3ZmZ2pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwODA3MTgsImV4cCI6MjA4NzY1NjcxOH0.D4SqSsR8O8HAwjHFr03hYc1NcPHsqLQnJT3jH1yaMpU';
+var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ============================================
+// GLOBAL STATE
+// ============================================
+var currentUser = null;      // Supabase auth user object
+var currentProfile = null;   // oroflow_profiles row
+var workflowJson = '';
+var stepCount = 2;
+var planNames = {
+    free: 'Free',
+    trial: 'Free Trial',
+    starter: 'Starter',
+    basic: 'Basic',
+    pro: 'Professional',
+    enterprise: 'Enterprise',
+    locked: 'Suspended'
+};
+
+// Plan limits enforcement
+var planLimits = {
+    free:       { maxSteps: 3, maxWorkflows: 3, maxApps: 5 },
+    trial:      { maxSteps: 3, maxWorkflows: 3, maxApps: 5 },
+    starter:    { maxSteps: 5, maxWorkflows: 10, maxApps: 5 },
+    basic:      { maxSteps: 10, maxWorkflows: 999, maxApps: 15 },
+    pro:        { maxSteps: 25, maxWorkflows: 999, maxApps: 40 },
+    enterprise: { maxSteps: 999, maxWorkflows: 999, maxApps: 999 }
+};
+
+function getPlanLimits() {
+    var plan = currentProfile ? currentProfile.plan : 'free';
+    return planLimits[plan] || planLimits.free;
+}
+
+// ============================================
+// AI GENERATION CONFIG
+// ============================================
+// TODO: Replace with your Supabase Edge Function URL
+// or external proxy endpoint that holds your AI API key.
+// This keeps your API key server-side and secure.
+//
+// Example Edge Function URL:
+// var AI_ENDPOINT = 'https://xsqfdhymfgrobzovfgjf.supabase.co/functions/v1/generate-workflow';
+//
+// For now, set this to your proxy if you have one:
+var AI_ENDPOINT = 'https://xsqfdhymfgrobzovfgjf.supabase.co/functions/v1/generate-workflow';
+
+// ============================================
+// AUTH GUARD + LOAD USER
+// ============================================
+// Replaces: fetch('/auth.php?action=check') in loadUser()
+//
+// Two-step process:
+// 1. sb.auth.getSession() — checks if JWT exists in localStorage
+// 2. sb.from('oroflow_profiles').select() — fetches the user's
+//    profile data (name, plan, industry, etc.)
+//
+// The .select('*').eq('id', user.id).single() call:
+// - Queries oroflow_profiles table
+// - Filters to only this user's row (RLS also enforces this)
+// - .single() returns one object instead of an array
+async function loadUser() {
+    
+    // Simple approach: just get session directly
+    var sessionResult = await sb.auth.getSession();
+    
+    if (!sessionResult.data.session) {
+        window.location.href = '/login.html';
+        return;
+    }
+
+    currentUser = sessionResult.data.session.user;
+    await loadProfile();
+    
+    // Listen for sign out
+    sb.auth.onAuthStateChange(function(event, session) {
+        if (event === 'SIGNED_OUT') {
+            window.location.href = '/login.html';
+        }
+    });
+}
+
+async function loadProfile() {
+    var profileResult = await sb
+        .from('oroflow_profiles')
+        .select('*')
+        .eq('id', currentUser.id)
+        .single();
+
+    if (profileResult.error || !profileResult.data) {
+        // Profile doesn't exist yet — trigger might be slow
+        // Wait 1 second and retry once
+        await new Promise(function(r) { setTimeout(r, 1000); });
+        profileResult = await sb
+            .from('oroflow_profiles')
+            .select('*')
+            .eq('id', currentUser.id)
+            .single();
+    }
+
+    if (profileResult.error || !profileResult.data) {
+        window.location.href = '/login.html';
+        return;
+    }
+
+    currentProfile = profileResult.data;
+
+    // Update sidebar UI
+    var displayName = currentProfile.name || 'User';
+    document.getElementById('userName').textContent = displayName;
+    document.getElementById('userAvatar').textContent = displayName.charAt(0).toUpperCase();
+    document.getElementById('userPlan').textContent = planNames[currentProfile.plan] || currentProfile.plan || 'Free';
+
+    // Update settings page
+    document.getElementById('settingsName').textContent = currentProfile.name || '—';
+    document.getElementById('settingsEmail').textContent = currentProfile.email || '—';
+    document.getElementById('settingsPlan').textContent = planNames[currentProfile.plan] || currentProfile.plan || 'Free';
+
+    // Hide upgrade banner for paid users
+    if (currentProfile.plan && currentProfile.plan !== 'free' && currentProfile.plan !== 'trial') {
+        document.getElementById('upgradeBanner').style.display = 'none';
+    }
+
+    // Show plan usage info
+    await updateUsageDisplay();
+}
+
+async function updateUsageDisplay() {
+    var limits = getPlanLimits();
+    var usageEl = document.getElementById('usageInfo');
+    if (!usageEl) return;
+
+    if (limits.maxWorkflows >= 999) {
+        usageEl.innerHTML = '<span style="color:#16a34a;font-weight:600">Unlimited</span> workflows &middot; Up to ' + (limits.maxSteps >= 999 ? 'unlimited' : limits.maxSteps) + ' steps per workflow';
+    } else {
+        var now = new Date();
+        var firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+        var countResult = await sb
+            .from('oroflow_workflows')
+            .select('id', { count: 'exact', head: true })
+            .eq('is_template', false)
+            .gte('created_at', firstOfMonth);
+        var used = countResult.count || 0;
+        var remaining = Math.max(0, limits.maxWorkflows - used);
+        usageEl.innerHTML = '<span style="font-weight:600">' + remaining + '/' + limits.maxWorkflows + '</span> workflows left this month &middot; Up to ' + limits.maxSteps + ' steps per workflow';
+    }
+}
+
+// ============================================
+// LOGOUT
+// ============================================
+// Replaces: fetch('/auth.php?action=logout')
+// Supabase signOut() clears the JWT from localStorage
+async function logout() {
+    await sb.auth.signOut();
+    window.location.href = '/login.html';
+}
+
+// ============================================
+// NAVIGATION
+// ============================================
+function showPage(page, el) {
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+    document.getElementById('page-' + page).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+    if (el) el.classList.add('active');
+    var titles = { generate: 'AI Workflow Generator', workflows: 'My Workflows', templates: 'Template Library', settings: 'Settings' };
+    document.getElementById('pageTitle').textContent = titles[page] || 'OroFlow';
+    if (page === 'workflows') loadWorkflows();
+    if (page === 'templates') loadTemplates();
+    if (window.innerWidth < 769) toggleSidebar();
+}
+
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+
+// ============================================
+// WORKFLOW GENERATOR
+// ============================================
+function addStep() {
+    var limits = getPlanLimits();
+    if (stepCount >= limits.maxSteps) {
+        showToast('Your ' + (planNames[currentProfile.plan] || 'Free') + ' plan allows up to ' + limits.maxSteps + ' steps. Upgrade for more!', 'error');
+        return;
+    }
+    stepCount++;
+    var row = document.createElement('div');
+    row.className = 'step-row';
+    row.innerHTML = '<div class="step-num">' + stepCount + '</div><div class="step-content"><div class="step-label">Then do this (Action ' + stepCount + ')</div><select class="action-select"><option value="">Select action...</option><option>WhatsApp</option><option>Gmail</option><option>Google Sheets</option><option>Telegram</option><option>Slack</option></select></div><button class="step-delete" onclick="deleteStep(this)" title="Remove step">&times;</button>';
+    document.getElementById('stepsContainer').appendChild(row);
+}
+
+function deleteStep(btn) {
+    var row = btn.closest('.step-row');
+    row.remove();
+    // Re-number remaining steps
+    var steps = document.querySelectorAll('#stepsContainer .step-row');
+    steps.forEach(function(s, i) {
+        s.querySelector('.step-num').textContent = i + 1;
+    });
+    stepCount = steps.length;
+}
+
+async function generateWorkflow() {
+    var trigger = document.getElementById('triggerSelect').value;
+    var actions = [];
+    document.querySelectorAll('.action-select').forEach(function(s) { if (s.value) actions.push(s.value); });
+    var desc = document.getElementById('descArea').value.trim();
+
+    if (!desc) { showToast('Please describe your workflow', 'error'); return; }
+    if (!AI_ENDPOINT) { showToast('AI generation coming soon! This feature is under development.', 'error'); return; }
+
+    // Check monthly workflow limit
+    var limits = getPlanLimits();
+    if (limits.maxWorkflows < 999) {
+        var now = new Date();
+        var firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+        var countResult = await sb
+            .from('oroflow_workflows')
+            .select('id', { count: 'exact', head: true })
+            .eq('is_template', false)
+            .gte('created_at', firstOfMonth);
+        var used = countResult.count || 0;
+        if (used >= limits.maxWorkflows) {
+            showToast('You\'ve used ' + used + '/' + limits.maxWorkflows + ' workflows this month. Upgrade for more!', 'error');
+            return;
+        }
+    }
+
+    var btn = document.getElementById('generateBtn');
+    btn.disabled = true;
+    document.getElementById('loadingSpinner').style.display = 'block';
+    document.getElementById('resultArea').style.display = 'none';
+
+    var prompt = 'Generate an n8n workflow JSON. Trigger: ' + (trigger || 'any') + '. Actions: ' + (actions.join(', ') || 'as needed') + '. Description: ' + desc;
+
+    try {
+        // Call Edge Function using Supabase client (handles auth headers correctly)
+        var { data, error: fnError } = await sb.functions.invoke('generate-workflow', {
+            body: { prompt: prompt }
+        });
+
+        if (fnError) {
+            showToast(fnError.message || 'Generation failed', 'error');
+            btn.disabled = false;
+            document.getElementById('loadingSpinner').style.display = 'none';
+            return;
+        }
+
+        if (data.error) {
+            showToast(data.error, 'error');
+            btn.disabled = false;
+            document.getElementById('loadingSpinner').style.display = 'none';
+            return;
+        }
+
+        workflowJson = typeof data.result === 'string' ? data.result : JSON.stringify(data.result, null, 2);
+        document.getElementById('resultJson').textContent = workflowJson;
+        document.getElementById('resultArea').style.display = 'block';
+    } catch (err) {
+        showToast('Generation failed. Try again.', 'error');
+    }
+
+    btn.disabled = false;
+    document.getElementById('loadingSpinner').style.display = 'none';
+}
+
+function copyWorkflow() {
+    navigator.clipboard.writeText(workflowJson)
+        .then(function() { showToast('JSON copied!', 'success'); })
+        .catch(function() { showToast('Copy failed', 'error'); });
+}
+
+function downloadWorkflow() {
+    var blob = new Blob([workflowJson], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'oroflow-workflow.json';
+    a.click();
+}
+
+// ============================================
+// SAVE WORKFLOW
+// ============================================
+// Replaces: fetch('/workflows-api.php', {action:'save'})
+//
+// sb.from('oroflow_workflows').insert() creates a new row.
+// RLS policy "Users can insert own workflows" requires
+// with_check: auth.uid() = user_id — so we must set user_id
+// to the current user's ID.
+async function saveWorkflow() {
+    var name = prompt('Name this workflow:');
+    if (!name) return;
+
+    var desc = document.getElementById('descArea').value.trim();
+
+    var result = await sb
+        .from('oroflow_workflows')
+        .insert({
+            user_id: currentUser.id,
+            name: name,
+            description: desc,
+            json_data: workflowJson,
+            is_template: false
+        });
+
+    if (result.error) {
+        showToast('Save failed: ' + result.error.message, 'error');
+    } else {
+        showToast('Workflow saved!', 'success');
+    }
+}
+
+// ============================================
+// LOAD WORKFLOWS
+// ============================================
+// Replaces: fetch('/workflows-api.php?action=list')
+//
+// sb.from('oroflow_workflows').select('*') fetches all rows
+// that RLS allows (only this user's workflows).
+// .order('created_at', { ascending: false }) sorts newest first.
+async function loadWorkflows() {
+    var list = document.getElementById('wfList');
+
+    var result = await sb
+        .from('oroflow_workflows')
+        .select('*')
+        .eq('is_template', false)
+        .order('created_at', { ascending: false });
+
+    if (result.error || !result.data || result.data.length === 0) {
+        list.innerHTML = '<div class="empty-state"><div class="empty-icon">&#128194;</div><p>No saved workflows yet. Generate one and save it!</p></div>';
+        return;
+    }
+
+    var html = '';
+    result.data.forEach(function(w) {
+        var date = w.created_at ? new Date(w.created_at).toLocaleDateString('en-MY', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+        html += '<div class="wf-card"><div class="wf-info"><div class="wf-name">' + escHtml(w.name) + '</div><div class="wf-desc">' + escHtml(w.description || '') + '</div><div class="wf-date">' + date + '</div></div><div class="wf-actions"><button class="wf-btn wf-btn-dark" onclick="loadWorkflowById(\'' + w.id + '\')">Load</button><button class="wf-btn wf-btn-outline" onclick="downloadSaved(\'' + w.id + '\',\'' + escHtml(w.name) + '\')">Download</button><button class="wf-btn wf-btn-danger" onclick="deleteWorkflow(\'' + w.id + '\')">Delete</button></div></div>';
+    });
+    list.innerHTML = html;
+}
+
+// ============================================
+// LOAD SINGLE WORKFLOW
+// ============================================
+// Replaces: fetch('/workflows-api.php?action=get&id=')
+// Note: IDs are now UUIDs (strings) not integers
+async function loadWorkflowById(id) {
+    var result = await sb
+        .from('oroflow_workflows')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+    if (result.data) {
+        workflowJson = typeof result.data.json_data === 'string' ? result.data.json_data : JSON.stringify(result.data.json_data, null, 2);
+        document.getElementById('resultJson').textContent = workflowJson;
+        document.getElementById('resultArea').style.display = 'block';
+        document.getElementById('descArea').value = result.data.description || '';
+        showPage('generate', document.querySelector('.nav-item'));
+        showToast('Workflow loaded', 'success');
+    } else {
+        showToast('Failed to load', 'error');
+    }
+}
+
+// ============================================
+// DOWNLOAD SAVED WORKFLOW
+// ============================================
+async function downloadSaved(id, name) {
+    var result = await sb
+        .from('oroflow_workflows')
+        .select('json_data')
+        .eq('id', id)
+        .single();
+
+    if (result.data) {
+        var jsonStr = typeof result.data.json_data === 'string' ? result.data.json_data : JSON.stringify(result.data.json_data, null, 2);
+        var blob = new Blob([jsonStr], { type: 'application/json' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = name.replace(/[^a-z0-9]/gi, '_') + '.json';
+        a.click();
+    } else {
+        showToast('Download failed', 'error');
+    }
+}
+
+// ============================================
+// DELETE WORKFLOW
+// ============================================
+// Replaces: fetch('/workflows-api.php', {action:'delete'})
+// RLS policy "Users can delete own workflows" ensures
+// users can only delete their own rows.
+async function deleteWorkflow(id) {
+    if (!confirm('Delete this workflow?')) return;
+
+    var result = await sb
+        .from('oroflow_workflows')
+        .delete()
+        .eq('id', id);
+
+    if (result.error) {
+        showToast('Failed to delete', 'error');
+    } else {
+        showToast('Deleted', 'success');
+        loadWorkflows();
+    }
+}
+
+// ============================================
+// TEMPLATES
+// ============================================
+// Replaces: fetch('/workflows-api.php?action=templates')
+// Templates are public (RLS policy: "Anyone can view templates"
+// with qual = true), so even unauthenticated users could read
+// these — but since the dashboard requires auth, that's fine.
+async function loadTemplates() {
+    var result = await sb
+        .from('oroflow_templates')
+        .select('*')
+        .order('uses', { ascending: false });
+
+    if (result.error || !result.data) return;
+
+    // Build category filter buttons
+    var cats = ['all'];
+    result.data.forEach(function(t) {
+        if (t.category && cats.indexOf(t.category) === -1) cats.push(t.category);
+    });
+    var fb = document.getElementById('filterBar');
+    fb.innerHTML = '';
+    cats.forEach(function(c) {
+        var b = document.createElement('button');
+        b.className = 'filter-btn' + (c === 'all' ? ' active' : '');
+        b.textContent = c === 'all' ? 'All' : c.charAt(0).toUpperCase() + c.slice(1);
+        b.onclick = function() { filterTemplates(c, b); };
+        fb.appendChild(b);
+    });
+
+    window._templates = result.data;
+    renderTemplates(result.data);
+}
+
+function filterTemplates(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    if (!window._templates) return;
+    var filtered = cat === 'all' ? window._templates : window._templates.filter(function(t) { return t.category === cat; });
+    renderTemplates(filtered);
+}
+
+function renderTemplates(templates) {
+    var grid = document.getElementById('templateGrid');
+    if (!templates.length) {
+        grid.innerHTML = '<div class="empty-state"><p>No templates in this category.</p></div>';
+        return;
+    }
+    var html = '';
+    templates.forEach(function(t) {
+        html += '<div class="template-card"><div class="template-icon">' + (t.icon || '&#128196;') + '</div><h3>' + escHtml(t.name) + '</h3><p>' + escHtml(t.description || '') + '</p><div class="template-meta"><span class="template-cat">' + escHtml(t.category || '') + '</span><span class="template-uses">' + (t.uses || 0) + ' uses</span></div><div class="template-actions"><button class="btn-primary" style="font-size:11px;padding:7px 12px" onclick="useTemplate(\'' + t.id + '\')">Use Template</button><button class="btn-outline" style="font-size:11px;padding:7px 12px" onclick="previewTemplate(\'' + t.id + '\')">Preview</button></div></div>';
+    });
+    grid.innerHTML = html;
+}
+
+// ============================================
+// USE TEMPLATE
+// ============================================
+// Replaces: fetch('/workflows-api.php?action=get_template&id=')
+async function useTemplate(id) {
+    var result = await sb
+        .from('oroflow_templates')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+    if (result.data) {
+        workflowJson = typeof result.data.json_data === 'string' ? result.data.json_data : JSON.stringify(result.data.json_data, null, 2);
+        document.getElementById('resultJson').textContent = workflowJson;
+        document.getElementById('resultArea').style.display = 'block';
+        document.getElementById('descArea').value = result.data.description || '';
+        showPage('generate', document.querySelector('.nav-item'));
+        showToast('Template loaded', 'success');
+
+        // Increment uses count (fire and forget — no need to await)
+        sb.from('oroflow_templates').update({ uses: (result.data.uses || 0) + 1 }).eq('id', id);
+    } else {
+        showToast('Failed to load template', 'error');
+    }
+}
+
+async function previewTemplate(id) {
+    var result = await sb
+        .from('oroflow_templates')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+    if (result.data) {
+        var jsonStr = typeof result.data.json_data === 'string' ? result.data.json_data : JSON.stringify(result.data.json_data, null, 2);
+        document.getElementById('previewTitle').textContent = result.data.name;
+        document.getElementById('previewDesc').textContent = result.data.description || '';
+        document.getElementById('previewJson').textContent = jsonStr;
+        document.getElementById('previewUseBtn').onclick = function() { closePreview(); useTemplate(id); };
+        var modal = document.getElementById('previewModal');
+        modal.style.display = 'flex';
+        setTimeout(function() { modal.classList.add('open'); }, 10);
+    } else {
+        showToast('Failed to preview', 'error');
+    }
+}
+
+function closePreview() {
+    var modal = document.getElementById('previewModal');
+    modal.classList.remove('open');
+    setTimeout(function() { modal.style.display = 'none'; }, 200);
+}
+
+// ============================================
+// CHANGE PASSWORD
+// ============================================
+// Replaces: fetch('/change-password.php')
+//
+// Supabase's updateUser({ password }) changes the password
+// for the currently authenticated user. No need for the
+// "current password" field — if the user has a valid session,
+// they're already authenticated.
+//
+// Note: We removed the "Current password" input since
+// Supabase doesn't require it. The JWT session IS the proof.
+async function changePassword() {
+    var np = document.getElementById('newPass').value;
+    var conf = document.getElementById('confPass').value;
+
+    if (!np) { showToast('Enter a new password', 'error'); return; }
+    if (np.length < 8) { showToast('Password must be 8+ characters', 'error'); return; }
+    if (np !== conf) { showToast('Passwords do not match', 'error'); return; }
+
+    var result = await sb.auth.updateUser({ password: np });
+
+    if (result.error) {
+        showToast(result.error.message || 'Failed to update password', 'error');
+    } else {
+        showToast('Password updated!', 'success');
+        document.getElementById('newPass').value = '';
+        document.getElementById('confPass').value = '';
+    }
+}
+
+// ============================================
+// UTILITIES
+// ============================================
+function showToast(msg, type) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast toast-' + type;
+    t.style.display = 'block';
+    setTimeout(function() { t.style.display = 'none'; }, 3000);
+}
+
+function escHtml(s) {
+    var d = document.createElement('div');
+    d.textContent = s || '';
+    return d.innerHTML;
+}
+
+function togglePw(inputId, btn) {
+    var input = document.getElementById(inputId);
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerHTML = '&#128064;';
+    } else {
+        input.type = 'password';
+        btn.innerHTML = '&#128065;';
+    }
+}
+
+// ============================================
+// INIT
+// ============================================
+loadUser();
+</script>
+</body>
+</html>
