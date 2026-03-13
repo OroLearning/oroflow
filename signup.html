@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8461KRFVM6"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-8461KRFVM6");</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up — OroFlow</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html{-webkit-font-smoothing:antialiased}body{font-family:'Outfit',sans-serif;background:#F8F8F8;background-image:radial-gradient(circle,#c0c0b8 1px,transparent 1px);background-size:28px 28px;background-attachment:fixed;color:#1a1a1a;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:-.03em}
+.signup-container{width:100%;max-width:420px;animation:fadeIn .5s cubic-bezier(.4,0,.2,1)}
+.card{background:#ffffff;border:1px solid #e0e0da;border-radius:20px;padding:44px 36px;box-shadow:0 2px 8px rgba(0,0,0,.06),0 8px 32px rgba(0,0,0,.06)}
+.brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:32px;text-decoration:none}
+.brand-logo{width:38px;height:38px;background:#1a1a1a;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:13px;color:#E2FF00;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.brand:hover .brand-logo{box-shadow:0 0 0 3px rgba(226,255,0,.10)}
+.brand-name{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:#1a1a1a;letter-spacing:-.04em}
+.card h1{font-size:26px;font-weight:800;text-align:center;margin-bottom:6px;letter-spacing:-.04em}
+.card .subtitle{text-align:center;color:#888;font-size:14px;margin-bottom:28px;font-weight:400}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:13px;font-weight:600;color:#555;margin-bottom:7px}
+.form-group input{width:100%;padding:12px 15px;background:#F8F8F8;border:1px solid #e0e0da;border-radius:10px;color:#1a1a1a;font-family:'Outfit',sans-serif;font-size:14px;transition:all .25s cubic-bezier(.4,0,.2,1);outline:none}
+.form-group input::placeholder{color:#888}
+.form-group input:focus{border-color:#1a1a1a;box-shadow:0 0 0 3px rgba(226,255,0,.10)}
+.btn-submit{width:100%;padding:13px;background:#1a1a1a;color:#E2FF00;border:none;border-radius:11px;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);margin-top:6px}
+.btn-submit:hover{background:#111;box-shadow:0 4px 20px rgba(0,0,0,.15);transform:translateY(-1px)}
+.btn-submit:active{transform:translateY(0)}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.alt-link{text-align:center;margin-top:22px;color:#888;font-size:14px}
+.alt-link a{color:#1a1a1a;text-decoration:none;font-weight:600;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.alt-link a:hover{color:#111}
+.legal{text-align:center;margin-top:16px;font-size:12px;color:#888}
+.legal a{color:#555;text-decoration:none;margin:0 3px}
+.legal a:hover{text-decoration:underline}
+.error-msg{background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.12);color:#dc2626;padding:11px 14px;border-radius:10px;font-size:13px;margin-bottom:18px;display:none;text-align:center;font-weight:500}
+.pw-hint{font-size:11px;color:#888;margin-top:5px}
+.pw-wrapper{position:relative}
+.pw-wrapper input{width:100%;padding-right:44px}
+.pw-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#888;font-size:16px;padding:4px;line-height:1;transition:color .2s}
+.pw-toggle:hover{color:#1a1a1a}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:480px){.card{padding:32px 22px;border-radius:16px}.card h1{font-size:23px}}
+</style>
+</head>
+<body>
+<div class="signup-container">
+<div class="card">
+<a href="/" class="brand"><div class="brand-logo">O+</div><span class="brand-name">OroFlow</span></a>
+<h1>Create Account</h1>
+<p class="subtitle">Start automating your business today</p>
+<div class="error-msg" id="errorMsg"></div>
+<form id="signupForm" onsubmit="return handleSignup(event)">
+<div class="form-group"><label>Full Name</label><input type="text" id="name" placeholder="Your full name" required></div>
+<div class="form-group"><label>Email Address</label><input type="email" id="email" placeholder="you@company.com" required></div>
+<div class="form-group"><label>Password</label><div class="pw-wrapper"><input type="password" id="password" placeholder="Create a password" required minlength="8"><button type="button" class="pw-toggle" onclick="togglePw(this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div><div class="pw-hint">Minimum 8 characters</div></div>
+<div class="form-group"><label>Confirm Password</label><div class="pw-wrapper"><input type="password" id="confirmPassword" placeholder="Confirm your password" required minlength="8"><button type="button" class="pw-toggle" onclick="togglePw(this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+<button type="submit" class="btn-submit" id="submitBtn">Create Account</button>
+</form>
+<div style="display:flex;align-items:center;gap:12px;margin:18px 0"><div style="flex:1;height:1px;background:#e0e0da"></div><span style="font-size:12px;color:#888;font-weight:500">or</span><div style="flex:1;height:1px;background:#e0e0da"></div></div>
+<button onclick="signupWithGoogle()" style="width:100%;padding:12px;background:#ffffff;border:1px solid #e0e0da;border-radius:11px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#1a1a1a;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .25s cubic-bezier(.4,0,.2,1)"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>Continue with Google</button>
+<p class="alt-link">Already have an account? <a href="/login.html">Sign in</a></p>
+<p class="legal">By signing up you agree to our <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a></p>
+</div>
+</div>
+
+<!-- Supabase JS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+<script>
+// ============================================
+// SUPABASE INIT
+// ============================================
+var SUPABASE_URL = 'https://xsqfdhymfgrobzovfgjf.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhzcWZkaHltZmdyb2J6b3ZmZ2pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwODA3MTgsImV4cCI6MjA4NzY1NjcxOH0.D4SqSsR8O8HAwjHFr03hYc1NcPHsqLQnJT3jH1yaMpU';
+var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+function togglePw(btn) {
+    var input = btn.previousElementSibling;
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+    } else {
+        input.type = 'password';
+        btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+    }
+}
+
+// ============================================
+// AUTO-REDIRECT IF ALREADY LOGGED IN
+// ============================================
+// Replaces: fetch('/auth.php?action=check')
+(async function checkExistingSession() {
+    var result = await sb.auth.getSession();
+    if (result.data.session) {
+        window.location.href = '/dashboard.html';
+    }
+})();
+
+// ============================================
+// SIGNUP HANDLER
+// ============================================
+// Replaces: fetch('/auth.php?action=signup', ...)
+//
+// How Supabase signUp works:
+// 1. Creates a row in auth.users with email + hashed password
+// 2. Stores the 'name' in raw_user_meta_data (accessible later)
+// 3. Our trigger (handle_oroflow_signup) fires automatically
+//    and creates a row in oroflow_profiles with:
+//    - id = the new user's UUID
+//    - email = their email
+//    - name = from raw_user_meta_data
+//    - plan = 'free'
+// 4. Supabase returns a session (JWT token) stored in localStorage
+// 5. We redirect to onboarding for industry selection
+async function signupWithGoogle() {
+    var { data, error } = await sb.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: window.location.origin + '/onboarding.html' }
+    });
+    if (error) { showMsg(error.message, 'error'); }
+}
+
+async function handleSignup(e) {
+    e.preventDefault();
+
+    var btn = document.getElementById('submitBtn');
+    var errEl = document.getElementById('errorMsg');
+
+    // Reset UI
+    errEl.style.display = 'none';
+
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim().toLowerCase();
+    var password = document.getElementById('password').value;
+    var confirmPassword = document.getElementById('confirmPassword').value;
+
+    // Client-side validation
+    if (password.length < 8) {
+        errEl.textContent = 'Password must be at least 8 characters.';
+        errEl.style.display = 'block';
+        return false;
+    }
+
+    if (password !== confirmPassword) {
+        errEl.textContent = 'Passwords do not match.';
+        errEl.style.display = 'block';
+        return false;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Creating account...';
+
+    // Call Supabase Auth signUp
+    // The 'data.name' in options gets stored in raw_user_meta_data
+    // which our trigger reads to populate oroflow_profiles.name
+    var result = await sb.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+            data: {
+                name: name
+            }
+        }
+    });
+
+    if (result.error) {
+        // Map common Supabase errors to friendly messages
+        var msg = result.error.message;
+        if (msg.includes('already registered')) {
+            msg = 'An account with this email already exists.';
+        } else if (msg.includes('valid email')) {
+            msg = 'Please enter a valid email address.';
+        } else if (msg.includes('at least')) {
+            msg = 'Password must be at least 8 characters.';
+        }
+        errEl.textContent = msg;
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Create Account';
+    } else {
+        // Success — user created + session stored + profile auto-created
+        // Redirect to onboarding for industry selection
+        window.location.href = '/onboarding.html';
+    }
+
+    return false;
+}
+</script>
+</body>
+</html>
