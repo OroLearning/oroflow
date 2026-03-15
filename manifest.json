@@ -1,0 +1,21 @@
+{
+  "name": "OroFlow",
+  "short_name": "OroFlow",
+  "description": "AI-powered n8n workflow generation for Malaysian businesses",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f5f0",
+  "theme_color": "#E2FF00",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
